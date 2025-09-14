@@ -55,6 +55,9 @@ Lab\ 1.list \
 OBJCOPY_HEX += \
 Lab\ 1.hex \
 
+OBJCOPY_BIN += \
+Lab\ 1.bin \
+
 
 # All Target
 all: main-build
@@ -63,8 +66,8 @@ all: main-build
 main-build: Lab\ 1.elf secondary-outputs
 
 # Tool invocations
-Lab\ 1.elf Lab\ 1.map: $(OBJS) $(USER_OBJS) D:\Projects\STM32\Lab\STM32F103C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "Lab 1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\Projects\STM32\Lab\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab 1.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Lab\ 1.elf Lab\ 1.map: $(OBJS) $(USER_OBJS) D:\HCMUT\ -\ Lab\HK\ 251\MCUs\ -\ MPUs\Lab\ 1\STM32F103C6TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "Lab 1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\HCMUT - Lab\HK 251\MCUs - MPUs\Lab 1\STM32F103C6TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="Lab 1.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -83,12 +86,17 @@ Lab\ 1.hex: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+Lab\ 1.bin: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "Lab 1.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
-	-$(RM) Lab\ 1.elf Lab\ 1.hex Lab\ 1.list Lab\ 1.map Lab\\ 1.elf default.size.stdout
+	-$(RM) Lab\ 1.bin Lab\ 1.elf Lab\ 1.hex Lab\ 1.list Lab\ 1.map Lab\\ 1.elf default.size.stdout
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_HEX) $(OBJCOPY_BIN)
 
 fail-specified-linker-script-missing:
 	@echo 'Error: Cannot find the specified linker script. Check the linker settings in the build configuration.'
