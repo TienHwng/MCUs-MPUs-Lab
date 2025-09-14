@@ -92,48 +92,7 @@ void setAllClock()
 
 void setNumberOnClock(int num)
 {
-    prev_led = current_led;
-    current_led = num;
-    switch(prev_led)
-    {
-        case 0:
-            HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_RESET);
-            break;
-        case 1:
-            HAL_GPIO_WritePin(GPIOA, LED2_Pin, GPIO_PIN_RESET);
-            break;
-        case 2:
-            HAL_GPIO_WritePin(GPIOA, LED3_Pin, GPIO_PIN_RESET);
-            break;
-        case 3:
-            HAL_GPIO_WritePin(GPIOA, LED4_Pin, GPIO_PIN_RESET);
-            break;
-        case 4:
-            HAL_GPIO_WritePin(GPIOA, LED5_Pin, GPIO_PIN_RESET);
-            break;
-        case 5:
-            HAL_GPIO_WritePin(GPIOA, LED6_Pin, GPIO_PIN_RESET);
-            break;
-        case 6:
-            HAL_GPIO_WritePin(GPIOA, LED7_Pin, GPIO_PIN_RESET);
-            break;
-        case 7:
-            HAL_GPIO_WritePin(GPIOA, LED8_Pin, GPIO_PIN_RESET);
-            break;
-        case 8:
-            HAL_GPIO_WritePin(GPIOA, LED9_Pin, GPIO_PIN_RESET);
-            break;
-        case 9:
-            HAL_GPIO_WritePin(GPIOA, LED10_Pin, GPIO_PIN_RESET);
-            break;
-        case 10:
-            HAL_GPIO_WritePin(GPIOA, LED11_Pin, GPIO_PIN_RESET);
-            break;
-        case 11:
-            HAL_GPIO_WritePin(GPIOA, LED12_Pin, GPIO_PIN_RESET);
-            break;
-    }
-    switch(current_led)
+    switch(num)
     {
         case 0:
             HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_SET);
