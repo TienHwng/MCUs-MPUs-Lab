@@ -92,13 +92,13 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint8_t current_led = 0; // Biến đếm để theo dõi LED hiện tại
+  int current_led = 0;
     while (1)
     {
-      /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-      /* USER CODE BEGIN 3 */
-      if (current_led < 12) // Chỉ bật LED nếu chưa đến LED cuối cùng
+    /* USER CODE BEGIN 3 */
+      if (current_led < 12)
       {
         switch (current_led)
         {
@@ -115,9 +115,9 @@ int main(void)
           case 10: HAL_GPIO_WritePin(GPIOA, LED11_Pin, GPIO_PIN_SET); break;
           case 11: HAL_GPIO_WritePin(GPIOA, LED12_Pin, GPIO_PIN_SET); break;
         }
-        current_led++; // Tăng đếm để sang LED tiếp theo
+        current_led++;
       }
-      HAL_Delay(100); // Đợi 1 giây trước khi bật LED tiếp theo
+      HAL_Delay(100);
     }
   /* USER CODE END 3 */
 }
