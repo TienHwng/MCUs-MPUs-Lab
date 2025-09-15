@@ -98,45 +98,45 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-	if (count == 0)
-	{
-		HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin, RESET);
-		HAL_GPIO_WritePin(GPIOA, LED_YELLOW_1_Pin, SET);
-		HAL_GPIO_WritePin(GPIOA, LED_GREEN_1_Pin, SET);
-
-		HAL_GPIO_WritePin(GPIOA, LED_RED_2_Pin, SET);
-		HAL_GPIO_WritePin(GPIOA, LED_YELLOW_2_Pin, SET);
-		HAL_GPIO_WritePin(GPIOA, LED_GREEN_2_Pin, RESET);
-	}
-	else if (count == 3)
-	{
-
-		HAL_GPIO_WritePin(GPIOA, LED_RED_2_Pin, SET);
-		HAL_GPIO_WritePin(GPIOA, LED_YELLOW_2_Pin, RESET);
-		HAL_GPIO_WritePin(GPIOA, LED_GREEN_2_Pin, SET);
-	}
-	else if (count == 5)
-	{
-		HAL_GPIO_WritePin(GPIOA, LED_YELLOW_1_Pin, SET);
-		HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin, SET);
-		HAL_GPIO_WritePin(GPIOA, LED_GREEN_1_Pin, RESET);
-
-		HAL_GPIO_WritePin(GPIOA, LED_YELLOW_2_Pin, SET);
-		HAL_GPIO_WritePin(GPIOA, LED_RED_2_Pin, RESET);
-		HAL_GPIO_WritePin(GPIOA, LED_GREEN_2_Pin, SET);
-	}
-	else if (count == 8)
-	{
-		HAL_GPIO_WritePin(GPIOA, LED_YELLOW_1_Pin, RESET);
-		HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin, SET);
-		HAL_GPIO_WritePin(GPIOA, LED_GREEN_1_Pin, SET);
-	}
-
-	HAL_Delay(1000);
-	count++;
-	if (count == 10) count = 0;
-
     /* USER CODE BEGIN 3 */
+
+		if (count == 0)
+		{
+			HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin, RESET);
+			HAL_GPIO_WritePin(GPIOA, LED_YELLOW_1_Pin, SET);
+			HAL_GPIO_WritePin(GPIOA, LED_GREEN_1_Pin, SET);
+
+			HAL_GPIO_WritePin(GPIOA, LED_RED_2_Pin, SET);
+			HAL_GPIO_WritePin(GPIOA, LED_YELLOW_2_Pin, SET);
+			HAL_GPIO_WritePin(GPIOA, LED_GREEN_2_Pin, RESET);
+		}
+		else if (count == 3)
+		{
+
+			HAL_GPIO_WritePin(GPIOA, LED_RED_2_Pin, SET);
+			HAL_GPIO_WritePin(GPIOA, LED_YELLOW_2_Pin, RESET);
+			HAL_GPIO_WritePin(GPIOA, LED_GREEN_2_Pin, SET);
+		}
+		else if (count == 5)
+		{
+			HAL_GPIO_WritePin(GPIOA, LED_YELLOW_1_Pin, SET);
+			HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin, SET);
+			HAL_GPIO_WritePin(GPIOA, LED_GREEN_1_Pin, RESET);
+
+			HAL_GPIO_WritePin(GPIOA, LED_YELLOW_2_Pin, SET);
+			HAL_GPIO_WritePin(GPIOA, LED_RED_2_Pin, RESET);
+			HAL_GPIO_WritePin(GPIOA, LED_GREEN_2_Pin, SET);
+		}
+		else if (count == 8)
+		{
+			HAL_GPIO_WritePin(GPIOA, LED_YELLOW_1_Pin, RESET);
+			HAL_GPIO_WritePin(GPIOA, LED_RED_1_Pin, SET);
+			HAL_GPIO_WritePin(GPIOA, LED_GREEN_1_Pin, SET);
+		}
+
+		HAL_Delay(1000);
+		count++;
+		if (count == 10) count = 0;
   }
   /* USER CODE END 3 */
 }
