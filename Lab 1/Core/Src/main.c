@@ -43,6 +43,17 @@
 
 /* USER CODE BEGIN PV */
 
+int second = 0;
+int minute = 0;
+int hour = 0;
+int delayTime = 5;
+
+const uint16_t LED_Pins[12] = {
+    LED1_Pin, LED2_Pin, LED3_Pin, LED4_Pin,
+    LED5_Pin, LED6_Pin, LED7_Pin, LED8_Pin,
+    LED9_Pin, LED10_Pin, LED11_Pin, LED12_Pin
+};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -54,6 +65,24 @@ static void MX_GPIO_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+void clearAllClock()
+{
+	for (int i = 0; i < 12; i++)
+	{
+		HAL_GPIO_WritePin(GPIOA, LED_Pins[i], GPIO_PIN_RESET);
+	}
+}
+
+void setNumberOnClock(int num)
+{
+    HAL_GPIO_WritePin(GPIOA, LED_Pins[num], GPIO_PIN_SET);
+}
+
+void clearNumberOnClock(int num)
+{
+    HAL_GPIO_WritePin(GPIOA, LED_Pins[num], GPIO_PIN_RESET);
+}
 
 /* USER CODE END 0 */
 
@@ -92,32 +121,42 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint8_t current_led = 0; // Biến đếm để theo dõi LED hiện tại
+//  	int current_led = 0; // Biến đếm để theo dõi LED hiện tại
+
     while (1)
     {
-      /* USER CODE END WHILE */
+    /* USER CODE END WHILE */
 
-      /* USER CODE BEGIN 3 */
-      if (current_led < 12) // Chỉ bật LED nếu chưa đến LED cuối cùng
+    /* USER CODE BEGIN 3 */
+      second++;
+
+      if(second == 60)
       {
-        switch (current_led)
-        {
-          case 0: HAL_GPIO_WritePin(GPIOA, LED1_Pin, GPIO_PIN_SET); break;
-          case 1: HAL_GPIO_WritePin(GPIOA, LED2_Pin, GPIO_PIN_SET); break;
-          case 2: HAL_GPIO_WritePin(GPIOA, LED3_Pin, GPIO_PIN_SET); break;
-          case 3: HAL_GPIO_WritePin(GPIOA, LED4_Pin, GPIO_PIN_SET); break;
-          case 4: HAL_GPIO_WritePin(GPIOA, LED5_Pin, GPIO_PIN_SET); break;
-          case 5: HAL_GPIO_WritePin(GPIOA, LED6_Pin, GPIO_PIN_SET); break;
-          case 6: HAL_GPIO_WritePin(GPIOA, LED7_Pin, GPIO_PIN_SET); break;
-          case 7: HAL_GPIO_WritePin(GPIOA, LED8_Pin, GPIO_PIN_SET); break;
-          case 8: HAL_GPIO_WritePin(GPIOA, LED9_Pin, GPIO_PIN_SET); break;
-          case 9: HAL_GPIO_WritePin(GPIOA, LED10_Pin, GPIO_PIN_SET); break;
-          case 10: HAL_GPIO_WritePin(GPIOA, LED11_Pin, GPIO_PIN_SET); break;
-          case 11: HAL_GPIO_WritePin(GPIOA, LED12_Pin, GPIO_PIN_SET); break;
-        }
-        current_led++; // Tăng đếm để sang LED tiếp theo
+    	  second = 0;
+    	  minute++;
       }
-      HAL_Delay(100); // Đợi 1 giây trước khi bật LED tiếp theo
+
+      if(minute == 60)
+      {
+    	  minute = 0;
+    	  hour++;
+      }
+
+      if(hour == 12)
+      {
+    	  hour = 0;
+      }
+
+      int h_dis = ((hour - 1) >= 0) ? hour : 0;
+      int m_dis = ((minute / 5 - 1) >= 0) ? minute / 5 - 1  : 0;
+      int s_dis = ((second / 5 - 1) >= 0) ? second / 5 - 1  : 0;
+
+      clearAllClock();
+      setNumberOnClock(h_dis);
+	  setNumberOnClock(m_dis);
+	  setNumberOnClock(s_dis);
+	  HAL_Delay(delayTime);
+
     }
   /* USER CODE END 3 */
 }
