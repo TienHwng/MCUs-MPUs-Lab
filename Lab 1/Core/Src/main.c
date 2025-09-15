@@ -43,6 +43,19 @@
 
 /* USER CODE BEGIN PV */
 
+uint8_t segmentMap[10] = {
+	0b1111110, // 0
+	0b0110000, // 1
+	0b1101101, // 2
+	0b1111001, // 3
+	0b0110011, // 4
+	0b1011011, // 5
+	0b1011111, // 6
+	0b1110000, // 7
+	0b1111111, // 8
+	0b1111011  // 9
+};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -57,119 +70,15 @@ static void MX_GPIO_Init(void);
 
 void display7SEG(int num)
 {
-    switch(num)
-    {
-        case 0:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, SET);
-            break;
-        }
-        case 1:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, SET);
-            break;
-        }
-        case 2:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, RESET);
-            break;
-        }
-        case 3:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, RESET);
-            break;
-        }
-        case 4:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, RESET);
-            break;
-        }
-        case 5:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, RESET);
-            break;
-        }
-        case 6:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, RESET);
-            break;
-        }
-        case 7:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, SET);
-            break;
-        }
-        case 8:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, RESET);
-            break;
-        }
-        case 9:
-        {
-            HAL_GPIO_WritePin(GPIOB, A_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, B_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, C_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, D_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, E_Pin, SET);
-            HAL_GPIO_WritePin(GPIOB, F_Pin, RESET);
-            HAL_GPIO_WritePin(GPIOB, G_Pin, RESET);
-            break;
-        }
-    }
+	uint8_t bitmask = segmentMap[num];
+
+	HAL_GPIO_WritePin(GPIOB, A_Pin, (bitmask & (1 << 6)) ? RESET : SET);
+	HAL_GPIO_WritePin(GPIOB, B_Pin, (bitmask & (1 << 5)) ? RESET : SET);
+	HAL_GPIO_WritePin(GPIOB, C_Pin, (bitmask & (1 << 4)) ? RESET : SET);
+	HAL_GPIO_WritePin(GPIOB, D_Pin, (bitmask & (1 << 3)) ? RESET : SET);
+	HAL_GPIO_WritePin(GPIOB, E_Pin, (bitmask & (1 << 2)) ? RESET : SET);
+	HAL_GPIO_WritePin(GPIOB, F_Pin, (bitmask & (1 << 1)) ? RESET : SET);
+	HAL_GPIO_WritePin(GPIOB, G_Pin, (bitmask & (1 << 0)) ? RESET : SET);
 }
 
 /* USER CODE END 0 */
@@ -180,6 +89,7 @@ void display7SEG(int num)
   */
 int main(void)
 {
+
   /* USER CODE BEGIN 1 */
 
   /* USER CODE END 1 */
@@ -215,11 +125,12 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-	if(counter >= 10) counter = 0;
-	display7SEG(counter++);
-	HAL_Delay(1000);
-
     /* USER CODE BEGIN 3 */
+
+	    if(counter >= 10) counter = 0;
+		display7SEG(counter++);
+
+		HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
@@ -244,6 +155,7 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+
   /** Initializes the CPU, AHB and APB buses clocks
   */
   RCC_ClkInitStruct.ClockType = RCC_CLOCKTYPE_HCLK|RCC_CLOCKTYPE_SYSCLK
@@ -267,6 +179,9 @@ void SystemClock_Config(void)
 static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+
+  /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOA_CLK_ENABLE();
@@ -298,6 +213,9 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
 
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+
+  /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -318,8 +236,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.
@@ -335,5 +252,3 @@ void assert_failed(uint8_t *file, uint32_t line)
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */
-
-/************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
