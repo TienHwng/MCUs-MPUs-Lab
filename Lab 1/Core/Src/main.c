@@ -95,21 +95,17 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-	// Turn on the red LED and turn off the yellow LED
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);  // Red LED ON
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);  // Yellow LED OFF
-
-	// Delay for 2 seconds
-	HAL_Delay(2000);  // 2000 ms = 2 seconds
-
-	// Turn off the red LED and turn on the yellow LED
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);  // Red LED OFF
-	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);  // Yellow LED ON
-
-	// Delay for 2 seconds
-	HAL_Delay(2000);  // 2000 ms = 2 seconds
-
     /* USER CODE BEGIN 3 */
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_RESET);  // Red LED ON
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_SET);    // Yellow LED OFF
+
+	HAL_Delay(2000);
+
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_5, GPIO_PIN_SET);    // Red LED OFF
+	HAL_GPIO_WritePin(GPIOA, GPIO_PIN_6, GPIO_PIN_RESET);  // Yellow LED ON
+
+	HAL_Delay(2000);
   }
   /* USER CODE END 3 */
 }
