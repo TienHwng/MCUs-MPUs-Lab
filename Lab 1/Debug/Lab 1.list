@@ -234,40 +234,38 @@ int main(void)
  800020c:	601a      	str	r2, [r3, #0]
       }
 
-      int h_dis = ((hour - 1) >= 0) ? hour : 0;
+      int h_dis = ((hour) >= 0) ? hour : 0;
  800020e:	4b1d      	ldr	r3, [pc, #116]	@ (8000284 <main+0xd0>)
  8000210:	681b      	ldr	r3, [r3, #0]
  8000212:	ea23 73e3 	bic.w	r3, r3, r3, asr #31
  8000216:	60fb      	str	r3, [r7, #12]
-      int m_dis = ((minute / 5 - 1) >= 0) ? minute / 5 - 1  : 0;
+      int m_dis = ((minute / 5) >= 0) ? minute / 5 : 0;
  8000218:	4b19      	ldr	r3, [pc, #100]	@ (8000280 <main+0xcc>)
  800021a:	681b      	ldr	r3, [r3, #0]
- 800021c:	2b04      	cmp	r3, #4
- 800021e:	dd09      	ble.n	8000234 <main+0x80>
- 8000220:	4b17      	ldr	r3, [pc, #92]	@ (8000280 <main+0xcc>)
- 8000222:	681b      	ldr	r3, [r3, #0]
- 8000224:	4a18      	ldr	r2, [pc, #96]	@ (8000288 <main+0xd4>)
- 8000226:	fb82 1203 	smull	r1, r2, r2, r3
- 800022a:	1052      	asrs	r2, r2, #1
- 800022c:	17db      	asrs	r3, r3, #31
- 800022e:	1ad3      	subs	r3, r2, r3
- 8000230:	3b01      	subs	r3, #1
+ 800021c:	f113 0f04 	cmn.w	r3, #4
+ 8000220:	db08      	blt.n	8000234 <main+0x80>
+ 8000222:	4b17      	ldr	r3, [pc, #92]	@ (8000280 <main+0xcc>)
+ 8000224:	681b      	ldr	r3, [r3, #0]
+ 8000226:	4a18      	ldr	r2, [pc, #96]	@ (8000288 <main+0xd4>)
+ 8000228:	fb82 1203 	smull	r1, r2, r2, r3
+ 800022c:	1052      	asrs	r2, r2, #1
+ 800022e:	17db      	asrs	r3, r3, #31
+ 8000230:	1ad3      	subs	r3, r2, r3
  8000232:	e000      	b.n	8000236 <main+0x82>
  8000234:	2300      	movs	r3, #0
  8000236:	60bb      	str	r3, [r7, #8]
-      int s_dis = ((second / 5 - 1) >= 0) ? second / 5 - 1  : 0;
+      int s_dis = ((second / 5) >= 0) ? second / 5 : 0;
  8000238:	4b10      	ldr	r3, [pc, #64]	@ (800027c <main+0xc8>)
  800023a:	681b      	ldr	r3, [r3, #0]
- 800023c:	2b04      	cmp	r3, #4
- 800023e:	dd09      	ble.n	8000254 <main+0xa0>
- 8000240:	4b0e      	ldr	r3, [pc, #56]	@ (800027c <main+0xc8>)
- 8000242:	681b      	ldr	r3, [r3, #0]
- 8000244:	4a10      	ldr	r2, [pc, #64]	@ (8000288 <main+0xd4>)
- 8000246:	fb82 1203 	smull	r1, r2, r2, r3
- 800024a:	1052      	asrs	r2, r2, #1
- 800024c:	17db      	asrs	r3, r3, #31
- 800024e:	1ad3      	subs	r3, r2, r3
- 8000250:	3b01      	subs	r3, #1
+ 800023c:	f113 0f04 	cmn.w	r3, #4
+ 8000240:	db08      	blt.n	8000254 <main+0xa0>
+ 8000242:	4b0e      	ldr	r3, [pc, #56]	@ (800027c <main+0xc8>)
+ 8000244:	681b      	ldr	r3, [r3, #0]
+ 8000246:	4a10      	ldr	r2, [pc, #64]	@ (8000288 <main+0xd4>)
+ 8000248:	fb82 1203 	smull	r1, r2, r2, r3
+ 800024c:	1052      	asrs	r2, r2, #1
+ 800024e:	17db      	asrs	r3, r3, #31
+ 8000250:	1ad3      	subs	r3, r2, r3
  8000252:	e000      	b.n	8000256 <main+0xa2>
  8000254:	2300      	movs	r3, #0
  8000256:	607b      	str	r3, [r7, #4]

@@ -147,9 +147,9 @@ int main(void)
     	  hour = 0;
       }
 
-      int h_dis = ((hour - 1) >= 0) ? hour : 0;
-      int m_dis = ((minute / 5 - 1) >= 0) ? minute / 5 - 1  : 0;
-      int s_dis = ((second / 5 - 1) >= 0) ? second / 5 - 1  : 0;
+      int h_dis = ((hour) >= 0) ? hour : 0;
+      int m_dis = ((minute / 5) >= 0) ? minute / 5 : 0;
+      int s_dis = ((second / 5) >= 0) ? second / 5 : 0;
 
       clearAllClock();
       setNumberOnClock(h_dis);
