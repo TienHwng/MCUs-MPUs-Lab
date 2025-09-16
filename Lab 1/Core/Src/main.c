@@ -66,6 +66,21 @@ static void MX_GPIO_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+void setTime(int h, int m, int s)
+{
+	hour = h;
+	minute = m;
+	second = s;
+}
+
+void setAllClock()
+{
+	for (int i = 0; i < 12; i++)
+	{
+		HAL_GPIO_WritePin(GPIOA, LED_Pins[i], GPIO_PIN_SET);
+	}
+}
+
 void clearAllClock()
 {
 	for (int i = 0; i < 12; i++)
@@ -121,13 +136,15 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-//  	int current_led = 0; // Biến đếm để theo dõi LED hiện tại
+
+    setTime(0, 0, 0);
 
     while (1)
     {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
       second++;
 
       if(second == 60)
@@ -147,14 +164,19 @@ int main(void)
     	  hour = 0;
       }
 
-      int h_dis = ((hour) >= 0) ? hour : 0;
-      int m_dis = ((minute / 5) >= 0) ? minute / 5 : 0;
-      int s_dis = ((second / 5) >= 0) ? second / 5 : 0;
+//      int h_dis = (hour >= 0) ? hour : 0;
+//      int m_dis = (minute / 5 >= 0) ? minute / 5 : 0;
+//      int s_dis = (second / 5 >= 0) ? second / 5 : 0;
+
+      int h_dis = hour;
+	  int m_dis = minute / 5;
+	  int s_dis = second / 5;
 
       clearAllClock();
       setNumberOnClock(h_dis);
 	  setNumberOnClock(m_dis);
 	  setNumberOnClock(s_dis);
+
 	  HAL_Delay(delayTime);
 
     }
