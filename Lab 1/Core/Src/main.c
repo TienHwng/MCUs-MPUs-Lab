@@ -43,12 +43,11 @@
 
 /* USER CODE BEGIN PV */
 
-int second = 0;
-int minute = 0;
+int sec = 0;
+int min = 0;
 int hour = 0;
-int delayTime = 5;
 
-const uint16_t LED_Pins[12] = {
+int LED_Pins[12] = {
     LED1_Pin, LED2_Pin, LED3_Pin, LED4_Pin,
     LED5_Pin, LED6_Pin, LED7_Pin, LED8_Pin,
     LED9_Pin, LED10_Pin, LED11_Pin, LED12_Pin
@@ -69,8 +68,8 @@ static void MX_GPIO_Init(void);
 void setTime(int h, int m, int s)
 {
 	hour = h;
-	minute = m;
-	second = s;
+	min = m;
+	sec = s;
 }
 
 void setAllClock()
@@ -144,18 +143,23 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    clearAllClock();
+    setNumberOnClock(hour);
+    setNumberOnClock(min / 5);
+    setNumberOnClock(sec / 5);
 
-      second++;
 
-      if(second == 60)
+      sec++;
+
+      if(sec == 60)
       {
-    	  second = 0;
-    	  minute++;
+    	  sec = 0;
+    	  min++;
       }
 
-      if(minute == 60)
+      if(min == 60)
       {
-    	  minute = 0;
+    	  min = 0;
     	  hour++;
       }
 
@@ -164,20 +168,7 @@ int main(void)
     	  hour = 0;
       }
 
-//      int h_dis = (hour >= 0) ? hour : 0;
-//      int m_dis = (minute / 5 >= 0) ? minute / 5 : 0;
-//      int s_dis = (second / 5 >= 0) ? second / 5 : 0;
-
-      int h_dis = hour;
-	  int m_dis = minute / 5;
-	  int s_dis = second / 5;
-
-      clearAllClock();
-      setNumberOnClock(h_dis);
-	  setNumberOnClock(m_dis);
-	  setNumberOnClock(s_dis);
-
-	  HAL_Delay(delayTime);
+	  HAL_Delay(10);
 
     }
   /* USER CODE END 3 */
