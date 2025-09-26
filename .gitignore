@@ -1,3 +1,6 @@
 .metadata/
 testbench/
 to_be_deleted/
+
+Proteus Simulation/*.pdsbak
+Proteus Simulation/*.workspace
