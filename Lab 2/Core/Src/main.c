@@ -57,9 +57,12 @@ int segmentMap[10] = {
 	0b1111011  // 9
 };
 
-int SEG_Pins[7] =
-{
+int SEG_Pins[7] = {
 	SEG0_Pin, SEG1_Pin, SEG2_Pin, SEG3_Pin, SEG4_Pin, SEG5_Pin, SEG6_Pin
+};
+
+int EN_Pins[4] = {
+	EN0_Pin, EN1_Pin, EN2_Pin, EN3_Pin
 };
 
 /* USER CODE END PV */
@@ -266,7 +269,39 @@ static void MX_GPIO_Init(void)
 
 int counter = 50;
 int counterDot = 200;
-int displayNum = 0;
+int segToDisplay = 0;
+
+const int MAX_LED = 4;
+int index_led = 0;
+
+int led_buffer[4] = {1, 2, 3, 4};
+
+void update7SEG(int index){
+    switch (index) {
+        case 0:
+        	HAL_GPIO_WritePin(GPIOA, EN_Pins[0], GPIO_PIN_RESET);
+        	display7SEG(led_buffer[0]);
+            break;
+
+        case 1:
+        	HAL_GPIO_WritePin(GPIOA, EN_Pins[1], GPIO_PIN_RESET);
+        	display7SEG(led_buffer[1]);
+            break;
+
+        case 2:
+        	HAL_GPIO_WritePin(GPIOA, EN_Pins[2], GPIO_PIN_RESET);
+        	display7SEG(led_buffer[2]);
+            break;
+
+        case 3:
+        	HAL_GPIO_WritePin(GPIOA, EN_Pins[3], GPIO_PIN_RESET);
+        	display7SEG(led_buffer[3]);
+            break;
+
+        default:
+            break;
+    }
+}
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -277,36 +312,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		counter = 50;
 
-		HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_SET);
-
-		if (displayNum == 0)
+		for (int i = 0; i < 4; i++)
 		{
-			HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_RESET);
-			display7SEG(1);
+			HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
 		}
 
-		if (displayNum == 1)
+		update7SEG(segToDisplay++);
+		if (segToDisplay >= 4)
 		{
-			HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_RESET);
-			display7SEG(2);
+			segToDisplay = 0;
 		}
-
-		if (displayNum == 2)
-		{
-			HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_RESET);
-			display7SEG(3);
-		}
-
-		if (displayNum == 3)
-		{
-			HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_RESET);
-			display7SEG(0);
-		}
-
-		displayNum = (displayNum + 1) % 4;
 	}
 
 	if (counterDot <= 0)
