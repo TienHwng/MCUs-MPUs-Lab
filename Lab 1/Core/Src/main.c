@@ -43,11 +43,12 @@
 
 /* USER CODE BEGIN PV */
 
-int sec = 0;
-int min = 0;
+int second = 0;
+int minute = 0;
 int hour = 0;
+int delayTime = 0;
 
-int LED_Pins[12] = {
+const uint16_t LED_Pins[12] = {
     LED1_Pin, LED2_Pin, LED3_Pin, LED4_Pin,
     LED5_Pin, LED6_Pin, LED7_Pin, LED8_Pin,
     LED9_Pin, LED10_Pin, LED11_Pin, LED12_Pin
@@ -65,11 +66,16 @@ static void MX_GPIO_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+void setDelayTime(int dt)
+{
+	delayTime = dt;
+}
+
 void setTime(int h, int m, int s)
 {
 	hour = h;
-	min = m;
-	sec = s;
+	minute = m;
+	second = s;
 }
 
 void setAllClock()
@@ -137,38 +143,39 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
     setTime(0, 0, 0);
+    setDelayTime(10);
 
     while (1)
     {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    clearAllClock();
-    setNumberOnClock(hour);
-    setNumberOnClock(min / 5);
-    setNumberOnClock(sec / 5);
 
+		clearAllClock();
+		setNumberOnClock(hour);
+		setNumberOnClock(minute / 5);
+		setNumberOnClock(second / 5);
 
-      sec++;
+		second++;
 
-      if(sec == 60)
-      {
-    	  sec = 0;
-    	  min++;
-      }
+		if(second == 60)
+		{
+			second = 0;
+			minute++;
+		}
 
-      if(min == 60)
-      {
-    	  min = 0;
-    	  hour++;
-      }
+		if(minute == 60)
+		{
+			minute = 0;
+			hour++;
+		}
 
-      if(hour == 12)
-      {
-    	  hour = 0;
-      }
+		if(hour == 12)
+		{
+			hour = 0;
+		}
 
-	  HAL_Delay(10);
+		HAL_Delay(delayTime);
 
     }
   /* USER CODE END 3 */
