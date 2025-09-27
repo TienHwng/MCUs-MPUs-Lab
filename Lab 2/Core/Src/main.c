@@ -44,14 +44,14 @@ TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 
-int counter = 50;
+int counter = 100;
 int counterDot = 200;
 int index_led = 0;
 int segToDisplay = 0;
 
 const int MAX_LED = 4;
 
-int led_buffer[4] = {1, 2, 3, 4};
+int led_buffer[4] = {5, 6, 7, 8};
 
 int segmentMap[10] = {
 	0b1111110, // 0
@@ -310,7 +310,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 	if(counter <= 0)
 	{
-		counter = 50;
+		counter = 100;
 
 		for (int i = 0; i < 4; i++)
 		{
