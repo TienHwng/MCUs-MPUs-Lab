@@ -32,6 +32,8 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
+//#define MAX_LED 4
+
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -44,14 +46,16 @@ TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 
+const int MAX_LED = 4;
+
 int counter = 100;
 int counterDot = 200;
 int index_led = 0;
 int segToDisplay = 0;
 
-const int MAX_LED = 4;
+int hour = 15, minute = 8, second = 50;
 
-int led_buffer[4] = {5, 6, 7, 8};
+int led_buffer[4] = {0, 0, 0, 0};
 
 int segmentMap[10] = {
 	0b1111110, // 0
@@ -124,6 +128,31 @@ void update7SEG(int index){
     }
 }
 
+void updateClockBuffer()
+{
+	if (hour <= 9)
+	{
+		led_buffer[0] = 0;
+		led_buffer[1] = hour;
+	}
+	else
+	{
+		led_buffer[0] = hour / 10;
+		led_buffer[1] = hour % 10;
+	}
+
+	if (minute <= 9)
+	{
+		led_buffer[2] = 0;
+		led_buffer[3] = minute;
+	}
+	else
+	{
+		led_buffer[2] = minute / 10;
+		led_buffer[3] = minute % 10;
+	}
+}
+
 /* USER CODE END 0 */
 
 /**
@@ -169,6 +198,25 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	  second++;
+	  if (second >= 60)
+	  {
+		  second = 0;
+		  minute++;
+	  }
+	  if (minute >= 60)
+	  {
+		  minute = 0;
+		  hour++;
+	  }
+	  if (hour >= 24)
+	  {
+		  hour = 0;
+	  }
+
+	  updateClockBuffer();
+	  HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
