@@ -32,8 +32,6 @@
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
 
-//#define MAX_LED 4
-
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -50,12 +48,15 @@ const int MAX_LED = 4;
 
 int counter = 100;
 int counterDot = 200;
+
 int index_led = 0;
-int segToDisplay = 0;
+int led_buffer[4] = {0, 0, 0, 0};
 
 int hour = 15, minute = 8, second = 50;
 
-int led_buffer[4] = {0, 0, 0, 0};
+int timer0_counter = 0;
+int timer0_flag = 0;
+int TIMER_CYCLE = 10;
 
 int segmentMap[10] = {
 	0b1111110, // 0
@@ -95,13 +96,13 @@ void display7SEG(int num)
 {
 	int bitmask = segmentMap[num];
 
-	for (int i = 0; i <= 6; i++)
+	for (int i = 0; i < 7; i++)
 	{
 		HAL_GPIO_WritePin(GPIOB, SEG_Pins[i], (bitmask & (1 << (6 - i))) ? RESET : SET);
 	}
 }
 
-void update7SEG(int index){
+void update7SEG(int index) {
     switch (index) {
         case 0:
         	HAL_GPIO_WritePin(GPIOA, EN_Pins[0], GPIO_PIN_RESET);
@@ -130,7 +131,7 @@ void update7SEG(int index){
 
 void updateClockBuffer()
 {
-	if (hour <= 9)
+	if (hour < 10)
 	{
 		led_buffer[0] = 0;
 		led_buffer[1] = hour;
@@ -141,7 +142,7 @@ void updateClockBuffer()
 		led_buffer[1] = hour % 10;
 	}
 
-	if (minute <= 9)
+	if (minute < 10)
 	{
 		led_buffer[2] = 0;
 		led_buffer[3] = minute;
@@ -151,6 +152,21 @@ void updateClockBuffer()
 		led_buffer[2] = minute / 10;
 		led_buffer[3] = minute % 10;
 	}
+}
+
+void setTimer0(int duration) {
+    timer0_counter = duration / TIMER_CYCLE;
+    timer0_flag = 0;
+}
+
+void timer_run() {
+    if (timer0_counter > 0) {
+        timer0_counter--;
+    }
+
+    if (timer0_counter == 0) {
+        timer0_flag = 1;
+    }
 }
 
 /* USER CODE END 0 */
@@ -217,6 +233,11 @@ int main(void)
 
 	  updateClockBuffer();
 	  HAL_Delay(1000);
+
+	  if (timer0_flag == 1) {
+		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+		  setTimer0(2000);
+	  }
   }
   /* USER CODE END 3 */
 }
@@ -353,6 +374,8 @@ static void MX_GPIO_Init(void)
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
+	timer_run();
+
 	counter--;
 	counterDot--;
 
