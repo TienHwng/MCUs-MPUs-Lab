@@ -102,6 +102,12 @@ void display7SEG(int num)
 }
 
 void update7SEG(int index) {
+
+	for (int i = 0; i < 4; i++)
+	{
+		HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
+	}
+
     switch (index) {
         case 0:
         	HAL_GPIO_WritePin(GPIOA, EN_Pins[0], GPIO_PIN_RESET);
@@ -235,6 +241,12 @@ int main(void)
 		  }
 
 		  updateClockBuffer();
+
+		  update7SEG(index_led++);
+		  if (index_led >= 4)
+		  {
+			  index_led = 0;
+		  }
 
 		  setTimer0(1000);
 	  }
@@ -375,24 +387,6 @@ static void MX_GPIO_Init(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	timer_run();
-
-	counter--;
-
-	if(counter <= 0)
-	{
-		counter = 100;
-
-		for (int i = 0; i < 4; i++)
-		{
-			HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
-		}
-
-		update7SEG(index_led++);
-		if (index_led >= 4)
-		{
-			index_led = 0;
-		}
-	}
 }
 
 /* USER CODE END 4 */
