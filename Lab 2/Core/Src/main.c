@@ -44,6 +44,15 @@ TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 
+int counter = 50;
+int counterDot = 200;
+int index_led = 0;
+int segToDisplay = 0;
+
+const int MAX_LED = 4;
+
+int led_buffer[4] = {1, 2, 3, 4};
+
 int segmentMap[10] = {
 	0b1111110, // 0
 	0b0110000, // 1
@@ -86,6 +95,33 @@ void display7SEG(int num)
 	{
 		HAL_GPIO_WritePin(GPIOB, SEG_Pins[i], (bitmask & (1 << (6 - i))) ? RESET : SET);
 	}
+}
+
+void update7SEG(int index){
+    switch (index) {
+        case 0:
+        	HAL_GPIO_WritePin(GPIOA, EN_Pins[0], GPIO_PIN_RESET);
+        	display7SEG(led_buffer[0]);
+            break;
+
+        case 1:
+        	HAL_GPIO_WritePin(GPIOA, EN_Pins[1], GPIO_PIN_RESET);
+        	display7SEG(led_buffer[1]);
+            break;
+
+        case 2:
+        	HAL_GPIO_WritePin(GPIOA, EN_Pins[2], GPIO_PIN_RESET);
+        	display7SEG(led_buffer[2]);
+            break;
+
+        case 3:
+        	HAL_GPIO_WritePin(GPIOA, EN_Pins[3], GPIO_PIN_RESET);
+        	display7SEG(led_buffer[3]);
+            break;
+
+        default:
+            break;
+    }
 }
 
 /* USER CODE END 0 */
@@ -267,42 +303,6 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 
-int counter = 50;
-int counterDot = 200;
-int segToDisplay = 0;
-
-const int MAX_LED = 4;
-int index_led = 0;
-
-int led_buffer[4] = {1, 2, 3, 4};
-
-void update7SEG(int index){
-    switch (index) {
-        case 0:
-        	HAL_GPIO_WritePin(GPIOA, EN_Pins[0], GPIO_PIN_RESET);
-        	display7SEG(led_buffer[0]);
-            break;
-
-        case 1:
-        	HAL_GPIO_WritePin(GPIOA, EN_Pins[1], GPIO_PIN_RESET);
-        	display7SEG(led_buffer[1]);
-            break;
-
-        case 2:
-        	HAL_GPIO_WritePin(GPIOA, EN_Pins[2], GPIO_PIN_RESET);
-        	display7SEG(led_buffer[2]);
-            break;
-
-        case 3:
-        	HAL_GPIO_WritePin(GPIOA, EN_Pins[3], GPIO_PIN_RESET);
-        	display7SEG(led_buffer[3]);
-            break;
-
-        default:
-            break;
-    }
-}
-
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	counter--;
@@ -317,10 +317,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
 		}
 
-		update7SEG(segToDisplay++);
-		if (segToDisplay >= 4)
+		update7SEG(index_led++);
+		if (index_led >= 4)
 		{
-			segToDisplay = 0;
+			index_led = 0;
 		}
 	}
 
