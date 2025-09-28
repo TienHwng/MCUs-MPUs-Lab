@@ -44,8 +44,6 @@ TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 
-int counter = 100;
-
 const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] = {0, 0, 0, 0};
@@ -102,8 +100,8 @@ void display7SEG(int num)
 	}
 }
 
-void update7SEG(int index) {
-
+void update7SEG(int index)
+{
 	for (int i = 0; i < 4; i++)
 	{
 		HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
@@ -237,7 +235,6 @@ int main(void)
 		  }
 
 		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 
 		  setTimer0(1000);
 	  }
