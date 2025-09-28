@@ -44,18 +44,17 @@ TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 
+int counter = 25;
+
 const int MAX_LED = 4;
-
-int counter = 100;
-
 int index_led = 0;
 int led_buffer[4] = {0, 0, 0, 0};
 
 int hour = 15, minute = 8, second = 50;
 
+int TIMER_CYCLE = 10;
 int timer0_counter = 0;
 int timer0_flag = 0;
-int TIMER_CYCLE = 10;
 
 int segmentMap[10] = {
 	0b1111110, // 0
@@ -101,7 +100,13 @@ void display7SEG(int num)
 	}
 }
 
-void update7SEG(int index) {
+void update7SEG(int index)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
+	}
+
     switch (index) {
         case 0:
         	HAL_GPIO_WritePin(GPIOA, EN_Pins[0], GPIO_PIN_RESET);
@@ -130,27 +135,10 @@ void update7SEG(int index) {
 
 void updateClockBuffer()
 {
-	if (hour < 10)
-	{
-		led_buffer[0] = 0;
-		led_buffer[1] = hour;
-	}
-	else
-	{
-		led_buffer[0] = hour / 10;
-		led_buffer[1] = hour % 10;
-	}
-
-	if (minute < 10)
-	{
-		led_buffer[2] = 0;
-		led_buffer[3] = minute;
-	}
-	else
-	{
-		led_buffer[2] = minute / 10;
-		led_buffer[3] = minute % 10;
-	}
+	led_buffer[0] = hour / 10;
+	led_buffer[1] = hour % 10;
+	led_buffer[2] = minute / 10;
+	led_buffer[3] = minute % 10;
 }
 
 void setTimer0(int duration) {
@@ -215,8 +203,7 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
 	  if (timer0_flag == 1) {
-		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+		  updateClockBuffer();
 
 		  second++;
 		  if (second >= 60)
@@ -234,7 +221,7 @@ int main(void)
 			  hour = 0;
 		  }
 
-		  updateClockBuffer();
+		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
 
 		  setTimer0(1000);
 	  }
@@ -380,12 +367,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 	if(counter <= 0)
 	{
-		counter = 100;
-
-		for (int i = 0; i < 4; i++)
-		{
-			HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
-		}
+		counter = 25;
 
 		update7SEG(index_led++);
 		if (index_led >= 4)
