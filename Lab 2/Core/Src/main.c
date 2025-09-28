@@ -44,6 +44,8 @@ TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 
+int counter = 0;
+
 const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] = {0, 0, 0, 0};
@@ -208,6 +210,18 @@ void updateLEDMatrix(int index) {
     }
 }
 
+void shiftMatrixLeft(void)
+{
+    uint8_t first = matrix_buffer[0];
+
+    for (int i = 0; i < MAX_LED_MATRIX - 1; i++)
+    {
+        matrix_buffer[i] = matrix_buffer[i + 1];
+    }
+
+    matrix_buffer[MAX_LED_MATRIX - 1] = first;
+}
+
 void setTimer0(int duration) {
     timer0_counter = duration / TIMER_CYCLE;
     timer0_flag = 0;
@@ -328,6 +342,12 @@ int main(void)
 	  }
 
 	  if (timer2_flag == 1) {
+		  if (counter > 7) {
+		      shiftMatrixLeft();
+		      counter = 0;
+		  }
+		  counter++;
+
 		  updateLEDMatrix(index_led_matrix++);
 		  index_led_matrix %= MAX_LED_MATRIX;
 		  setTimer2(100);
