@@ -293,19 +293,19 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 			display7SEG(1);
 		}
 
-		if (segToDisplay == 1)
+		else if (segToDisplay == 1)
 		{
 			HAL_GPIO_WritePin(GPIOA, EN_Pins[segToDisplay], GPIO_PIN_RESET);
 			display7SEG(2);
 		}
 
-		if (segToDisplay == 2)
+		else if (segToDisplay == 2)
 		{
 			HAL_GPIO_WritePin(GPIOA, EN_Pins[segToDisplay], GPIO_PIN_RESET);
 			display7SEG(3);
 		}
 
-		if (segToDisplay == 3)
+		else // segToDisplay == 3
 		{
 			HAL_GPIO_WritePin(GPIOA, EN_Pins[segToDisplay], GPIO_PIN_RESET);
 			display7SEG(0);
