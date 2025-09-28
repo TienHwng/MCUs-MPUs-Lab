@@ -62,6 +62,10 @@ int SEG_Pins[7] =
 	SEG0_Pin, SEG1_Pin, SEG2_Pin, SEG3_Pin, SEG4_Pin, SEG5_Pin, SEG6_Pin
 };
 
+int EN_Pins[4] = {
+	EN0_Pin, EN1_Pin, EN2_Pin, EN3_Pin
+};
+
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -265,8 +269,8 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 int counter = 50;
-int counterDot = 200;
-int displayNum = 0;
+int counterDot = 100;
+int segToDisplay = 0;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
@@ -277,41 +281,41 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		counter = 50;
 
-		HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_SET);
-		HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_SET);
-
-		if (displayNum == 0)
+		for (int i = 0; i < 4; i++)
 		{
-			HAL_GPIO_WritePin(GPIOA, EN0_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
+		}
+
+		if (segToDisplay == 0)
+		{
+			HAL_GPIO_WritePin(GPIOA, EN_Pins[segToDisplay], GPIO_PIN_RESET);
 			display7SEG(1);
 		}
 
-		if (displayNum == 1)
+		if (segToDisplay == 1)
 		{
-			HAL_GPIO_WritePin(GPIOA, EN1_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA, EN_Pins[segToDisplay], GPIO_PIN_RESET);
 			display7SEG(2);
 		}
 
-		if (displayNum == 2)
+		if (segToDisplay == 2)
 		{
-			HAL_GPIO_WritePin(GPIOA, EN2_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA, EN_Pins[segToDisplay], GPIO_PIN_RESET);
 			display7SEG(3);
 		}
 
-		if (displayNum == 3)
+		if (segToDisplay == 3)
 		{
-			HAL_GPIO_WritePin(GPIOA, EN3_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_WritePin(GPIOA, EN_Pins[segToDisplay], GPIO_PIN_RESET);
 			display7SEG(0);
 		}
 
-		displayNum = (displayNum + 1) % 4;
+		segToDisplay = (segToDisplay + 1) % 4;
 	}
 
 	if (counterDot <= 0)
 	{
-		counterDot = 200;
+		counterDot = 100;
 		HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
 	}
 }
