@@ -44,6 +44,11 @@ TIM_HandleTypeDef htim2;
 
 /* USER CODE BEGIN PV */
 
+int counter = 50;
+int counterDot = 100;
+
+int segToDisplay = 0;
+
 int segmentMap[10] = {
 	0b1111110, // 0
 	0b0110000, // 1
@@ -267,10 +272,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-int counter = 50;
-int counterDot = 100;
-int segToDisplay = 0;
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
