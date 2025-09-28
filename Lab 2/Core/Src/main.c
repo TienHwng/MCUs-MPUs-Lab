@@ -45,12 +45,10 @@ TIM_HandleTypeDef htim2;
 /* USER CODE BEGIN PV */
 
 int counter = 50;
-int counterDot = 200;
-int index_led = 0;
-int segToDisplay = 0;
+int counterDot = 100;
 
 const int MAX_LED = 4;
-
+int index_led = 0;
 int led_buffer[4] = {1, 2, 3, 4};
 
 int segmentMap[10] = {
@@ -97,7 +95,13 @@ void display7SEG(int num)
 	}
 }
 
-void update7SEG(int index){
+void update7SEG(int index)
+{
+	for (int i = 0; i < 4; i++)
+	{
+		HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
+	}
+
     switch (index) {
         case 0:
         	HAL_GPIO_WritePin(GPIOA, EN_Pins[0], GPIO_PIN_RESET);
@@ -312,11 +316,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	{
 		counter = 50;
 
-		for (int i = 0; i < 4; i++)
-		{
-			HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
-		}
-
 		update7SEG(index_led++);
 		if (index_led >= 4)
 		{
@@ -326,7 +325,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 
 	if (counterDot <= 0)
 	{
-		counterDot = 200;
+		counterDot = 100;
 		HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
 	}
 }
