@@ -123,8 +123,8 @@ void displayLEDMatrix(int num_data)
     }
 }
 
-void update7SEG(int index) {
-
+void update7SEG(int index)
+{
 	for (int i = 0; i < 4; i++)
 	{
 		HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
@@ -299,9 +299,6 @@ int main(void)
 	  if (timer0_flag == 1) {
 		  updateClockBuffer();
 
-		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
-		  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
-
 		  second++;
 		  if (second >= 60)
 		  {
@@ -317,6 +314,8 @@ int main(void)
 		  {
 			  hour = 0;
 		  }
+
+		  HAL_GPIO_TogglePin(GPIOA, DOT_Pin);
 
 		  setTimer0(1000);
 	  }
