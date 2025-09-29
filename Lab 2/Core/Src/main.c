@@ -326,10 +326,14 @@ int main(void)
 		  setTimer1(250);
 	  }
 
-	  if (timer2_flag == 1) {
-		  updateLEDMatrix(index_led_matrix++);
-		  index_led_matrix %= MAX_LED_MATRIX;
-		  setTimer2(100);
+//	  if (timer2_flag == 1) {
+//		  updateLEDMatrix(index_led_matrix++);
+//		  index_led_matrix %= MAX_LED_MATRIX;
+//		  setTimer2(100);
+//	  }
+	  for (int index_led_matrix = 0; index_led_matrix < MAX_LED_MATRIX; index_led_matrix++) {
+		  updateLEDMatrix(index_led_matrix);
+		  HAL_Delay(1);
 	  }
   }
   /* USER CODE END 3 */
