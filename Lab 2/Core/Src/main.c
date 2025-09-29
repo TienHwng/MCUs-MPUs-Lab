@@ -48,7 +48,7 @@ const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] = {0, 0, 0, 0};
 
-int hour = 15, minute = 8, second = 50;
+int hour = 15, minute = 8, second = 59;
 
 int TIMER_CYCLE = 10;
 int timer0_counter = 0;
@@ -154,18 +154,14 @@ void setTimer1(int duration) {
 void timer_run() {
     if (timer0_counter > 0) {
         timer0_counter--;
-    }
 
-    if (timer0_counter == 0) {
-        timer0_flag = 1;
+    	if (timer0_counter == 0) timer0_flag = 1;
     }
 
     if (timer1_counter > 0) {
 		timer1_counter--;
-	}
 
-	if (timer1_counter == 0) {
-		timer1_flag = 1;
+		if (timer1_counter == 0) timer1_flag = 1;
 	}
 }
 
@@ -209,6 +205,10 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  setTimer0(10);
+  setTimer1(10);
+
   while (1)
   {
     /* USER CODE END WHILE */
