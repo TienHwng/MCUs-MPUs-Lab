@@ -226,26 +226,20 @@ void setTimer2(int duration) {
 void timer_run() {
     if (timer0_counter > 0) {
         timer0_counter--;
-    }
 
-    if (timer0_counter == 0) {
-        timer0_flag = 1;
+		if (timer0_counter == 0) timer0_flag = 1;
     }
 
     if (timer1_counter > 0) {
 		timer1_counter--;
-	}
 
-	if (timer1_counter == 0) {
-		timer1_flag = 1;
+		if (timer1_counter == 0) timer1_flag = 1;
 	}
 
 	if (timer2_counter > 0) {
 		timer2_counter--;
-	}
 
-	if (timer2_counter == 0) {
-		timer2_flag = 1;
+		if (timer2_counter == 0) timer2_flag = 1;
 	}
 }
 
@@ -290,6 +284,10 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+  setTimer0(TIMER_CYCLE);
+  setTimer1(TIMER_CYCLE);
+  setTimer2(TIMER_CYCLE);
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -326,15 +324,17 @@ int main(void)
 		  setTimer1(250);
 	  }
 
-	  if (timer2_flag == 1) {
-		  updateLEDMatrix(index_led_matrix++);
-		  index_led_matrix %= MAX_LED_MATRIX;
-		  setTimer2(1);
-	  }
-//	  for (int index_led_matrix = 0; index_led_matrix < MAX_LED_MATRIX; index_led_matrix++) {
-//		  updateLEDMatrix(index_led_matrix);
-//		  HAL_Delay(100);
+//	  if (timer2_flag == 1) {
+//		  updateLEDMatrix(index_led_matrix++);
+//		  index_led_matrix %= MAX_LED_MATRIX;
+//		  setTimer2(TIMER_CYCLE);
 //	  }
+
+	  // this is the work around way .-.
+	  for (int index_led_matrix = 0; index_led_matrix < MAX_LED_MATRIX; index_led_matrix++) {
+		  updateLEDMatrix(index_led_matrix);
+		  HAL_Delay(1);
+	  }
   }
   /* USER CODE END 3 */
 }
