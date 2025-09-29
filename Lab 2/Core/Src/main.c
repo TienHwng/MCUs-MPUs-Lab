@@ -51,7 +51,7 @@ const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] = {0, 0, 0, 0};
 
-int hour = 15, minute = 8, second = 50;
+int hour = 15, minute = 8, second = 58;
 
 int TIMER_CYCLE = 10;
 int timer0_counter = 0;
@@ -150,10 +150,8 @@ void setTimer0(int duration) {
 void timer_run() {
     if (timer0_counter > 0) {
         timer0_counter--;
-    }
 
-    if (timer0_counter == 0) {
-        timer0_flag = 1;
+		if (timer0_counter == 0) timer0_flag = 1;
     }
 }
 
@@ -197,12 +195,15 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  setTimer0(1000);
+
+  setTimer0(10);
+
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 	  updateClockBuffer();
 
 	  second++;
@@ -371,12 +372,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(counter <= 0)
 	{
 		counter = 25;
-
 		update7SEG(index_led++);
-		if (index_led >= 4)
-		{
-			index_led = 0;
-		}
+		index_led %= MAX_LED;
 	}
 
 	if (counterDot <= 0)
