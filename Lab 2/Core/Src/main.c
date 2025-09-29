@@ -238,28 +238,22 @@ void setTimer2(int duration) {
 }
 
 void timer_run() {
-    if (timer0_counter > 0) {
-        timer0_counter--;
-    }
+	if (timer0_counter > 0) {
+		timer0_counter--;
 
-    if (timer0_counter == 0) {
-        timer0_flag = 1;
-    }
-
-    if (timer1_counter > 0) {
-		timer1_counter--;
+		if (timer0_counter == 0) timer0_flag = 1;
 	}
 
-	if (timer1_counter == 0) {
-		timer1_flag = 1;
+	if (timer1_counter > 0) {
+		timer1_counter--;
+
+		if (timer1_counter == 0) timer1_flag = 1;
 	}
 
 	if (timer2_counter > 0) {
 		timer2_counter--;
-	}
 
-	if (timer2_counter == 0) {
-		timer2_flag = 1;
+		if (timer2_counter == 0) timer2_flag = 1;
 	}
 }
 
@@ -304,6 +298,10 @@ int main(void)
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
 
+  setTimer0(TIMER_CYCLE);
+  setTimer1(TIMER_CYCLE);
+  setTimer2(TIMER_CYCLE);
+
   while (1)
   {
     /* USER CODE END WHILE */
@@ -340,17 +338,20 @@ int main(void)
 		  setTimer1(250);
 	  }
 
-	  if (timer2_flag == 1) {
-//		  if (counter > 7) {
-		      shiftMatrixLeft();
-//		      counter = 0;
-//		  }
-//		  counter++;
-
+	  // the legit way
+//	  if (timer2_flag == 1) {
+//		  if (counter++ % 8 == 0) shiftMatrixLeft();
+//
 //		  updateLEDMatrix(index_led_matrix++);
 //		  index_led_matrix %= MAX_LED_MATRIX;
-		  setTimer2(100);
-	  }
+//		  setTimer2(TIMER_CYCLE);
+//	  }
+
+	  // the workaround way
+	  if (timer2_flag == 1) {
+		  shiftMatrixLeft();
+  		  setTimer2(250);
+  	  }
 
 	  for (int index_led_matrix = 0; index_led_matrix < MAX_LED_MATRIX; index_led_matrix++) {
 		  updateLEDMatrix(index_led_matrix);
