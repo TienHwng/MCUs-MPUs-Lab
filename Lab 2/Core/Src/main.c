@@ -53,7 +53,7 @@ int index_led_matrix = 0;
 uint8_t matrix_buffer[8] = {0x00, 0xFC, 0xFE, 0x33, 0x33, 0xFE, 0xFC, 0x00};
 //uint8_t matrix_buffer [8] = {0x00, 0x00, 0x7C, 0x12, 0x12, 0x7C, 0x00, 0x00};
 
-int hour = 15, minute = 8, second = 50;
+int hour = 15, minute = 59, second = 59;
 
 int TIMER_CYCLE = 10;
 int timer0_counter = 0;
@@ -326,15 +326,15 @@ int main(void)
 		  setTimer1(250);
 	  }
 
-//	  if (timer2_flag == 1) {
-//		  updateLEDMatrix(index_led_matrix++);
-//		  index_led_matrix %= MAX_LED_MATRIX;
-//		  setTimer2(100);
-//	  }
-	  for (int index_led_matrix = 0; index_led_matrix < MAX_LED_MATRIX; index_led_matrix++) {
-		  updateLEDMatrix(index_led_matrix);
-		  HAL_Delay(1);
+	  if (timer2_flag == 1) {
+		  updateLEDMatrix(index_led_matrix++);
+		  index_led_matrix %= MAX_LED_MATRIX;
+		  setTimer2(1);
 	  }
+//	  for (int index_led_matrix = 0; index_led_matrix < MAX_LED_MATRIX; index_led_matrix++) {
+//		  updateLEDMatrix(index_led_matrix);
+//		  HAL_Delay(100);
+//	  }
   }
   /* USER CODE END 3 */
 }
