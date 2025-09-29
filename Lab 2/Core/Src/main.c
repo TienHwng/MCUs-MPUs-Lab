@@ -53,7 +53,7 @@ const int MAX_LED = 4;
 int index_led = 0;
 int led_buffer[4] = {0, 0, 0, 0};
 
-int hour = 15, minute = 8, second = 50;
+int hour = 15, minute = 59, second = 59;
 
 int segmentMap[10] = {
 	0b1111110, // 0
@@ -186,6 +186,8 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+	  updateClockBuffer();
+
 	  second++;
 	  if (second >= 60)
 	  {
@@ -201,7 +203,6 @@ int main(void)
 	  {
 		  hour = 0;
 	  }
-	  updateClockBuffer();
 
 	  HAL_Delay(1000);
   }
@@ -346,12 +347,8 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 	if(counter <= 0)
 	{
 		counter = 25;
-
 		update7SEG(index_led++);
-		if (index_led >= 4)
-		{
-			index_led = 0;
-		}
+		index_led %= MAX_LED;
 	}
 
 	if (counterDot <= 0)
