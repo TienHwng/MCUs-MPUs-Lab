@@ -110,8 +110,9 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-	  if (timer0_flag == 1) {
+	  if(timer0_flag == 1) {
 		  HAL_GPIO_TogglePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin);
+		  setTimer0(500);
 	  }
 
     /* USER CODE BEGIN 3 */
