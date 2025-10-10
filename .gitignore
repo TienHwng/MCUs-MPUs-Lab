@@ -2,4 +2,5 @@
 testbench/
 to_be_deleted/
 
-*.Hwng.workspace
+Proteus Simulation/*.workspace
+Proteus Simulation/*.pdsbak
