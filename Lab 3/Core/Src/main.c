@@ -26,6 +26,7 @@
 #include "input_reading.h"
 #include "software_timer.h"
 #include "fsm_traffic.h"
+#include "display7seg.h"
 
 /* USER CODE END Includes */
 
@@ -94,7 +95,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_TIM2_Init();
-
   /* USER CODE BEGIN 2 */
 
   HAL_TIM_Base_Start_IT(&htim2);
@@ -107,12 +107,21 @@ int main(void)
   systemMode = INIT;
 
   setTimer0(TIMER_CYCLE);
+  setTimer1(TIMER_CYCLE);
 
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
+	  if (timer1_flag == 1) {
+		updateModeToBuffer(systemMode);
+		update7SEG(index_led++);
+		index_led %= MAX_LED;
+
+		setTimer1(100);
+	  }
 
 	  fsm_traffic_run();
   }
@@ -213,11 +222,28 @@ static void MX_GPIO_Init(void)
   /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
+  __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOB_CLK_ENABLE();
+
+  /*Configure GPIO pin Output Level */
+  HAL_GPIO_WritePin(GPIOA, EN0_Pin|EN1_Pin|EN2_Pin|EN3_Pin
+                          |SEG0_Pin|SEG1_Pin|SEG2_Pin|SEG3_Pin
+                          |SEG4_Pin|SEG5_Pin|SEG6_Pin, GPIO_PIN_RESET);
 
   /*Configure GPIO pin Output Level */
   HAL_GPIO_WritePin(GPIOB, LED_RED_1_Pin|LED_YELLOW_1_Pin|LED_GREEN_1_Pin|LED_RED_2_Pin
                           |LED_YELLOW_2_Pin|LED_GREEN_2_Pin, GPIO_PIN_RESET);
+
+  /*Configure GPIO pins : EN0_Pin EN1_Pin EN2_Pin EN3_Pin
+                           SEG0_Pin SEG1_Pin SEG2_Pin SEG3_Pin
+                           SEG4_Pin SEG5_Pin SEG6_Pin */
+  GPIO_InitStruct.Pin = EN0_Pin|EN1_Pin|EN2_Pin|EN3_Pin
+                          |SEG0_Pin|SEG1_Pin|SEG2_Pin|SEG3_Pin
+                          |SEG4_Pin|SEG5_Pin|SEG6_Pin;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
   /*Configure GPIO pins : LED_RED_1_Pin LED_YELLOW_1_Pin LED_GREEN_1_Pin LED_RED_2_Pin
                            LED_YELLOW_2_Pin LED_GREEN_2_Pin */

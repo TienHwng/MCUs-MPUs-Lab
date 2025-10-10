@@ -1,3 +1,4 @@
+"./Core/Src/display7seg.o"
 "./Core/Src/fsm_traffic.o"
 "./Core/Src/global.o"
 "./Core/Src/input_processing.o"
