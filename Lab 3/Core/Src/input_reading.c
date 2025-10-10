@@ -1,19 +1,22 @@
 /*
- * input_processing.c
+ * input_reading.c
  *
- *  Created on: Oct 8, 2025
+ *  Created on: Oct 10, 2025
  *      Author: Hwng
  */
 
 #include "main.h"
-#include "input_reading.h"
-#include "input_processing.h"
+#include "global.h"
+
+int BUTTON_Pins[N0_OF_BUTTONS] = {
+		BUTTON_1_Pin//, BUTTON_2_Pin, BUTTON_3_Pin
+};
 
 void button_reading(void) {
-//	for(char i = 0; i < N0_OF_BUTTONS; i ++) {
-	for(int i = 0; i < N0_OF_BUTTONS; i ++) {
+//	for(char i = 0; i < N0_OF_BUTTONS; i++) {
+	for(int i = 0; i < N0_OF_BUTTONS; i++) {
 		debounceButtonBuffer2[i] = debounceButtonBuffer1[i];
-		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(Mode_GPIO_Port, Mode_Pin);
+		debounceButtonBuffer1[i] = HAL_GPIO_ReadPin(GPIOB, BUTTON_Pins[i]);
 
 		if(debounceButtonBuffer1[i] == debounceButtonBuffer2[i]) {
 			buttonBuffer[i] = debounceButtonBuffer1[i];

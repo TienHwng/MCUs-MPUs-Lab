@@ -8,15 +8,22 @@
 #ifndef INC_GLOBAL_H_
 #define INC_GLOBAL_H_
 
-#include "main.h"
-//#include "software_timer.h"
+#include "software_timer.h"
 #include "input_processing.h"
+#include "input_reading.h"
 
-#define INIT		1
-#define AUTO_RED	2
-#define AUTO_YELLOW	3
-#define AUTO_GREEN	4
+#define INIT					1
 
-extern int status;
+#define SET_RED					2
+#define SET_YELLOW				3
+#define SET_GREEN				4
+
+#define RED1_GREEN2_AUTO		12
+#define RED1_YELLOW2_AUTO		13
+#define GREEN1_RED2_AUTO		14
+#define YELLOW1_RED2_AUTO		15
+
+extern int systemMode;
+extern int normalTrafficStatus;
 
 #endif /* INC_GLOBAL_H_ */
