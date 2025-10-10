@@ -30,8 +30,12 @@ void button_reading(void) {
 			else {
 				//the flag is turned on when 1 second has passed
 				//since the button is pressed.
-				flagForButtonPress1s[i] = 1;
+//				flagForButtonPress1s[i] = 1;
 				//todo
+
+				if (flagForButtonPress1s[i] == 0) {
+					flagForButtonPress1s[i] = 1;
+				}
 			}
 		}
 		else {

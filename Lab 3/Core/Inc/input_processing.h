@@ -13,17 +13,17 @@
 #define N0_OF_BUTTONS 				    	1
 #define N0_OF_MODES							4
 
-#define DURATION_FOR_AUTO_INCREASING	   10 // ms
+#define DURATION_FOR_AUTO_INCREASING	   100 // ms
 
 #define BUTTON_IS_PRESSED                  GPIO_PIN_RESET
 #define BUTTON_IS_RELEASED                 GPIO_PIN_SET
 
 // The buffer that the final result is stored after debouncing
-static GPIO_PinState buttonBuffer[N0_OF_BUTTONS];
+static GPIO_PinState buttonBuffer[N0_OF_BUTTONS] = {BUTTON_IS_RELEASED};
 
 // We define two buffers for debouncing
-static GPIO_PinState debounceButtonBuffer1[N0_OF_BUTTONS];
-static GPIO_PinState debounceButtonBuffer2[N0_OF_BUTTONS];
+static GPIO_PinState debounceButtonBuffer1[N0_OF_BUTTONS] = {BUTTON_IS_RELEASED};
+static GPIO_PinState debounceButtonBuffer2[N0_OF_BUTTONS] = {BUTTON_IS_RELEASED};
 
 // We define a flag for a button pressed more than 1 second.
 static uint8_t flagForButtonPress1s[N0_OF_BUTTONS];

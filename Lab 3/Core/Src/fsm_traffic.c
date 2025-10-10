@@ -17,7 +17,9 @@ void fsm_traffic_run() {
 			HAL_GPIO_WritePin(GPIOB, LED_GREEN_1_Pin, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(GPIOB, LED_GREEN_2_Pin, GPIO_PIN_RESET);
 
-			systemMode = SET_RED;
+			if (is_button_pressed(0)) {
+				systemMode = SET_RED;
+			}
 			setTimer1(5000);
 			break;
 
@@ -36,9 +38,13 @@ void fsm_traffic_run() {
 				HAL_GPIO_TogglePin(GPIOB, LED_RED_2_Pin);
 			}
 
-			if(timer1_flag == 1) {
+//			if(timer1_flag == 1) {
+//				systemMode = SET_YELLOW;
+//				setTimer1(3000);
+//			}
+
+			if (is_button_pressed(0)) {
 				systemMode = SET_YELLOW;
-				setTimer1(3000);
 			}
 
 			break;
@@ -57,9 +63,13 @@ void fsm_traffic_run() {
 				HAL_GPIO_TogglePin(GPIOB, LED_YELLOW_2_Pin);
 			}
 
-			if(timer1_flag == 1) {
+//			if(timer1_flag == 1) {
+//				systemMode = SET_GREEN;
+//				setTimer1(5000);
+//			}
+
+			if (is_button_pressed(0)) {
 				systemMode = SET_GREEN;
-				setTimer1(5000);
 			}
 
 			break;
@@ -79,9 +89,13 @@ void fsm_traffic_run() {
 				HAL_GPIO_TogglePin(GPIOB, LED_GREEN_2_Pin);
 			}
 
-			if(timer1_flag == 1) {
+//			if(timer1_flag == 1) {
+//				systemMode = SET_RED;
+//				setTimer1(5000);
+//			}
+
+			if (is_button_pressed(0)) {
 				systemMode = SET_RED;
-				setTimer1(5000);
 			}
 
 			break;
