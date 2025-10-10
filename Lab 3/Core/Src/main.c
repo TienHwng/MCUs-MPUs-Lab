@@ -22,6 +22,8 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "software_timer.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -89,22 +91,33 @@ int main(void)
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
+
   MX_GPIO_Init();
   MX_TIM2_Init();
+
   /* USER CODE BEGIN 2 */
+
+  HAL_TIM_Base_Start_IT(&htim2);
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+
+  setTimer0(TIMER_CYCLE);
+
   while (1)
   {
     /* USER CODE END WHILE */
 
+	  if (timer0_flag == 1) {
+		  HAL_GPIO_TogglePin(LED_RED_1_GPIO_Port, LED_RED_1_Pin);
+	  }
+
     /* USER CODE BEGIN 3 */
 
-	  //you only need to add the fsm function here
-	  fsm_for_input_processing();
+	  // you only need to add the fsm function here
+//	  fsm_for_input_processing();
   }
   /* USER CODE END 3 */
 }
@@ -247,6 +260,15 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	timerRun();
+
+	if(htim->Instance == TIM2) {
+		button_reading();
+	}
+}
 
 /* USER CODE END 4 */
 
