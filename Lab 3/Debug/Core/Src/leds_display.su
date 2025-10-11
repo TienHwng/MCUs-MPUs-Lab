@@ -1,5 +1,9 @@
-../Core/Src/leds_display.c:39:6:updateModeToBuffer	16	static
-../Core/Src/leds_display.c:45:6:updateDurToBuffer	16	static
-../Core/Src/leds_display.c:51:6:display7SEG	24	static
-../Core/Src/leds_display.c:61:6:update7SEG	24	static
-../Core/Src/leds_display.c:74:6:setLEDs	56	static
+../Core/Src/leds_display.c:43:6:updateModeToBuffer	16	static
+../Core/Src/leds_display.c:49:6:updateSetDuration	16	static
+../Core/Src/leds_display.c:55:6:updateDurToBuffer	16	static
+../Core/Src/leds_display.c:63:6:display7SEG1	24	static
+../Core/Src/leds_display.c:73:6:display7SEG2	24	static
+../Core/Src/leds_display.c:83:6:update7SEG1	24	static
+../Core/Src/leds_display.c:96:6:update7SEG2	24	static
+../Core/Src/leds_display.c:109:6:setLEDs	56	static
+../Core/Src/leds_display.c:122:6:clearTrafficLEDs	16	static

@@ -23,8 +23,12 @@ int segmentMap[10] = {
 	0b1111011  // 9
 };
 
-int SEG_Pins[7] = {
+int SEG_Pins_1[7] = {
 	SEG0_Pin, SEG1_Pin, SEG2_Pin, SEG3_Pin, SEG4_Pin, SEG5_Pin, SEG6_Pin
+};
+
+int SEG_Pins_2[7] = {
+	SEGa_Pin, SEGb_Pin, SEGc_Pin, SEGd_Pin, SEGe_Pin, SEGf_Pin, SEGg_Pin
 };
 
 int EN_Pins[4] = {
@@ -42,32 +46,63 @@ void updateModeToBuffer(int mode)
 	led_buffer[3] = mode % 10;
 }
 
-void updateDurToBuffer(int led_duration)
+void updateSetDuration(int led_duration)
 {
 	led_buffer[0] = led_duration / 10;
 	led_buffer[1] = led_duration % 10;
 }
 
-void display7SEG(int num)
+void updateDurToBuffer(int main_dur, int sub_dur)
 {
-	int bitmask = segmentMap[num];
+	led_buffer[0] = main_dur / 10;
+	led_buffer[1] = main_dur % 10;
+	led_buffer[2] = sub_dur / 10;
+	led_buffer[3] = sub_dur % 10;
+}
+
+void display7SEG1(int num)
+{
+	int bitmask1 = segmentMap[num];
 
 	for (int i = 0; i < 7; i++)
 	{
-		HAL_GPIO_WritePin(GPIOA, SEG_Pins[i], (bitmask & (1 << (6 - i))) ? RESET : SET);
+		HAL_GPIO_WritePin(GPIOA, SEG_Pins_1[i], (bitmask1 & (1 << (6 - i))) ? RESET : SET);
 	}
 }
 
-void update7SEG(int index)
+void display7SEG2(int num)
 {
-	for (int i = 0; i < 4; i++)
+	int bitmask2 = segmentMap[num];
+
+	for (int i = 0; i < 7; i++)
+	{
+		HAL_GPIO_WritePin(GPIOB, SEG_Pins_2[i], (bitmask2 & (1 << (6 - i))) ? RESET : SET);
+	}
+}
+
+void update7SEG1(int index)
+{
+	for (int i = 0; i < 2; i++)
 	{
 		HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
 	}
 
-	if (0 <= index && index < MAX_LED) {
+	if (0 <= index && index < 2) {
 		HAL_GPIO_WritePin(GPIOA, EN_Pins[index], GPIO_PIN_RESET);
-		display7SEG(led_buffer[index]);
+		display7SEG1(led_buffer[index]);
+	}
+}
+
+void update7SEG2(int index)
+{
+	for (int i = 2; i < 4; i++)
+	{
+		HAL_GPIO_WritePin(GPIOA, EN_Pins[i], GPIO_PIN_SET);
+	}
+
+	if (2 <= index && index < 4) {
+		HAL_GPIO_WritePin(GPIOA, EN_Pins[index], GPIO_PIN_RESET);
+		display7SEG2(led_buffer[index]);
 	}
 }
 
@@ -83,3 +118,11 @@ void setLEDs(int pin1, int pin2, int pin3, int pin4, int pin5, int pin6)
         HAL_GPIO_WritePin(GPIOB, pins[i], GPIO_PIN_SET);
     }
 }
+
+void clearTrafficLEDs() {
+	for (int i = 0; i < 6; i++) {
+		HAL_GPIO_WritePin(GPIOB, all_LEDs[i], RESET);
+	}
+}
+
+

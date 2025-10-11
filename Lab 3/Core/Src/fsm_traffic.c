@@ -15,7 +15,10 @@ void fsm_traffic_run() {
 	case INIT:
 		if (start_new_loop) {
 			start_new_loop = 0;
-			setTimer2(green_ms);
+			setTimer2(duration_buffer_2[2]);
+
+			countDownDur1 = duration_buffer_1[0];
+			countDownDur2 = duration_buffer_2[2];
 		}
 
 		switch (trafficState)
@@ -24,7 +27,11 @@ void fsm_traffic_run() {
 			setLEDs(LED_RED_1_Pin, LED_GREEN_2_Pin, -1, -1, -1, -1);
 			if (timer2_flag) {
 				timer2_flag = 0;
-				setTimer2(yellow_ms);
+				setTimer2(duration_buffer_2[1]);
+
+//				countDownDur1 = duration_buffer_1[0];
+				countDownDur2 = duration_buffer_2[1];
+
 				trafficState = RED1_YELLOW2_AUTO;
 			}
 			break;
@@ -33,7 +40,11 @@ void fsm_traffic_run() {
 			setLEDs(LED_RED_1_Pin, LED_YELLOW_2_Pin, -1, -1, -1, -1);
 			if (timer2_flag) {
 				timer2_flag = 0;
-				setTimer2(green_ms);
+				setTimer2(duration_buffer_1[2]);
+
+				countDownDur1 = duration_buffer_1[2];
+				countDownDur2 = duration_buffer_2[0];
+
 				trafficState = GREEN1_RED2_AUTO;
 			}
 			break;
@@ -42,7 +53,11 @@ void fsm_traffic_run() {
 			setLEDs(LED_GREEN_1_Pin, LED_RED_2_Pin, -1, -1, -1, -1);
 			if (timer2_flag) {
 				timer2_flag = 0;
-				setTimer2(yellow_ms);
+				setTimer2(duration_buffer_1[1]);
+
+				countDownDur1 = duration_buffer_1[1];
+//				countDownDur2 = duration_buffer_2[2];
+
 				trafficState = YELLOW1_RED2_AUTO;
 			}
 			break;
@@ -51,7 +66,11 @@ void fsm_traffic_run() {
 			setLEDs(LED_YELLOW_1_Pin, LED_RED_2_Pin, -1, -1, -1, -1);
 			if (timer2_flag) {
 				timer2_flag = 0;
-				setTimer2(red_ms);
+				setTimer2(duration_buffer_2[2]);
+
+				countDownDur1 = duration_buffer_1[0];
+				countDownDur2 = duration_buffer_2[2];
+
 				trafficState = RED1_GREEN2_AUTO;
 			}
 			break;
@@ -60,12 +79,7 @@ void fsm_traffic_run() {
 
 	// ---------------- SET MODES ----------------
 	case SET_RED:
-
-		HAL_GPIO_WritePin(GPIOB, LED_YELLOW_1_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOB, LED_YELLOW_2_Pin, GPIO_PIN_RESET);
-
-		HAL_GPIO_WritePin(GPIOB, LED_GREEN_1_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOB, LED_GREEN_2_Pin, GPIO_PIN_RESET);
+		clearTrafficLEDs();
 
 		if(timer0_flag == 1) {
 			setTimer0(250);
@@ -77,11 +91,7 @@ void fsm_traffic_run() {
 		break;
 
 	case SET_YELLOW:
-		HAL_GPIO_WritePin(GPIOB, LED_RED_1_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOB, LED_RED_2_Pin, GPIO_PIN_RESET);
-
-		HAL_GPIO_WritePin(GPIOB, LED_GREEN_1_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOB, LED_GREEN_2_Pin, GPIO_PIN_RESET);
+		clearTrafficLEDs();
 
 		if(timer0_flag == 1) {
 			setTimer0(250);
@@ -93,12 +103,7 @@ void fsm_traffic_run() {
 		break;
 
 	case SET_GREEN:
-		HAL_GPIO_WritePin(GPIOB, LED_RED_1_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOB, LED_RED_2_Pin, GPIO_PIN_RESET);
-
-		HAL_GPIO_WritePin(GPIOB, LED_YELLOW_1_Pin, GPIO_PIN_RESET);
-		HAL_GPIO_WritePin(GPIOB, LED_YELLOW_2_Pin, GPIO_PIN_RESET);
-
+		clearTrafficLEDs();
 
 		if(timer0_flag == 1) {
 			setTimer0(250);

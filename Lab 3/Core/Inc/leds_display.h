@@ -17,10 +17,17 @@
 extern int index_led;
 extern int led_buffer[4];
 
-void display7SEG(int num);
-void update7SEG(int index);
+void display7SEG1(int num);
+void display7SEG2(int num);
+
+void update7SEG1(int index);
+void update7SEG2(int index);
+
 void updateModeToBuffer(int mode);
-void updateDurToBuffer(int led_duration);
+void updateSetDuration(int led_duration);
+void updateDurToBuffer(int main_dur, int sub_dur);
+
 void setLEDs(int pin1, int pin2, int pin3, int pin4, int pin5, int pin6);
+void clearTrafficLEDs();
 
 #endif /* INC_LEDS_DISPLAY_H_ */

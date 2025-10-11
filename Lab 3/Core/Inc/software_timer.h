@@ -14,16 +14,19 @@ extern int timer0_flag; // 2 Hz blinking LEDs
 extern int timer1_flag; //
 extern int timer2_flag;
 extern int timer3_flag;
+extern int timer4_flag; // timer 1s
 
 extern int timer0_counter;
 extern int timer1_counter;
 extern int timer2_counter;
 extern int timer3_counter;
+extern int timer4_counter;
 
 void setTimer0(int duration);
 void setTimer1(int duration);
 void setTimer2(int duration);
 void setTimer3(int duration);
+void setTimer4(int duration);
 void timerRun(void);
 
 #endif /* INC_SOFTWARE_TIMER_H_ */
