@@ -127,21 +127,35 @@ int main(void)
 	  }
 
 	  if (timer4_flag == 1) {
-		  countDownDur1 -= 250;
-		  countDownDur2 -= 250;
+		  countDownDur1 -= 100;
+		  countDownDur2 -= 100;
 
 		  updateDurToBuffer(countDownDur1 / 1000 + 1, countDownDur2 / 1000 + 1);
 
-
-		  setTimer4(250);
+		  setTimer4(100);
 	  }
 
-//	  int counter_1s = 0;
 	  if (timer1_flag == 1) {
 		  if (systemMode != INIT) {
 			  updateModeToBuffer(systemMode);
-		  }
 
+			  updateSetDuration(duration_buffer_temp[systemMode - 2] / 1000);
+
+//			  switch(systemMode)
+//			  {
+//			  case SET_RED:
+//				  updateSetDuration(duration_buffer_temp[0] / 1000);
+//				  break;
+//
+//			  case SET_YELLOW:
+//			  	  updateSetDuration(duration_buffer_temp[1] / 1000);
+//			  	  break;
+//
+//			  case SET_GREEN:
+//				  updateSetDuration(duration_buffer_temp[2] / 1000);
+//				  break;
+//			  }
+		  }
 
 		  update7SEG1(index_led);
 		  update7SEG2(2 + index_led);

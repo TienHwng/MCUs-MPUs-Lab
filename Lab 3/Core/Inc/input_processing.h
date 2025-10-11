@@ -10,6 +10,9 @@
 
 #include "main.h"
 
+void main2temp();
+void temp2main();
+
 void fsm_for_input_processing(void);
 
 #endif /* INC_INPUT_PROCESSING_H_ */

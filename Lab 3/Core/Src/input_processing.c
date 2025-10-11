@@ -9,6 +9,7 @@
 #include "input_processing.h"
 #include "global.h"
 
+
 enum ButtonState{BUTTON_RELEASED, BUTTON_PRESSED, BUTTON_PRESSED_MORE_THAN_1_SECOND} ;
 enum ButtonState buttonState[N0_OF_BUTTONS] = {BUTTON_RELEASED, BUTTON_RELEASED, BUTTON_RELEASED};
 
@@ -20,43 +21,37 @@ void fsm_for_input_processing(void) {
 			if(is_button_pressed(button_index)) {
 				buttonState[button_index] = BUTTON_PRESSED;
 
-				// Tăng mode và quay vòng
-				if(button_index == 0) systemMode++;
+				if(button_index == 0) {
+					systemMode++;
+					is_first_time = 1;
+				}
 
-				else if(button_index == 1) {
-					switch(systemMode)
-					{
-					case SET_RED:
-						duration_buffer_1[systemMode] += 1000;
-						break;
-
-					case SET_YELLOW:
-						duration_buffer_1[systemMode] += 1000;
-						break;
-
-					case SET_GREEN:
-						duration_buffer_1[systemMode] += 1000;
-						break;
+				else if(button_index == 1 && systemMode != INIT) {
+					if(is_first_time) {
+						is_first_time = 0;
+						main2temp();
 					}
 
-					if (duration_buffer_1[systemMode] > 99000) {
-						duration_buffer_1[systemMode] = 1000;
+					duration_buffer_temp[systemMode - 2] += 1000;
+
+					if (duration_buffer_temp[systemMode - 2] > 99000) {
+						duration_buffer_temp[systemMode - 2] = 1000;
 					}
 				}
 
 				else if(button_index == 2) {
-					// button_index == 2, if more button is added, this function has to be fixed
+					temp2main();
 
-					duration_buffer_2[2] = ceil(duration_buffer_1[0] * 7 / 10);
-					duration_buffer_2[1] = ceil(duration_buffer_1[0] * 3 / 10);
-					duration_buffer_2[0] = duration_buffer_1[1] + duration_buffer_1[2]; // red nhung ma khong dung den
+					duration_buffer_2[2] = round(duration_buffer_1[0] * 7 / 10);
+					duration_buffer_2[1] = round(duration_buffer_1[0] * 3 / 10);
+					duration_buffer_2[0] = duration_buffer_1[1] + duration_buffer_1[2];
 
 					systemMode = INIT;
 					trafficState = RED1_GREEN2_AUTO;
 					start_new_loop = 1;
 				}
 
-				if (systemMode > SET_GREEN ) { // thêm điều kiện or ở đây cũng được
+				if (systemMode > SET_GREEN ) {
 					systemMode = INIT;
 					trafficState = RED1_GREEN2_AUTO;
 					start_new_loop = 1;
@@ -65,28 +60,84 @@ void fsm_for_input_processing(void) {
 			break;
 
 		case BUTTON_PRESSED:
-			if(!is_button_pressed(0)) {
+			if(!is_button_pressed(button_index)) {
 				buttonState[button_index] = BUTTON_RELEASED;
 			}
 			else {
-				if(is_button_pressed_1s(0)) {
+				if(is_button_pressed_1s(button_index)) {
 					buttonState[button_index] = BUTTON_PRESSED_MORE_THAN_1_SECOND;
 				}
 			}
 			break;
 
 		case BUTTON_PRESSED_MORE_THAN_1_SECOND:
-			if(!is_button_pressed(0)) {
+			if(!is_button_pressed(button_index)) {
 				buttonState[button_index] = BUTTON_RELEASED;
 			}
+			else {
+				if(flagForLongPress[button_index] == 1) {
+					if(button_index == 0) {
+						systemMode++;
+						is_first_time = 1;
+					}
+					else if(button_index == 1 && systemMode != INIT) {
+						if(is_first_time) {
+							is_first_time = 0;
+							main2temp();
+						}
 
-			//todo
+						duration_buffer_temp[systemMode - 2] += 1000;
 
+						if (duration_buffer_temp[systemMode - 2] > 99000) {
+							duration_buffer_temp[systemMode - 2] = 1000;
+						}
+					}
 
-			break;
+					flagForLongPress[button_index] = 0;
+				}
 
-		default:
+				if (systemMode > SET_GREEN ) {
+					systemMode = INIT;
+					trafficState = RED1_GREEN2_AUTO;
+					start_new_loop = 1;
+				}
+			}
+
 			break;
 		}
 	}
 }
+
+void temp2main()
+{
+	duration_buffer_1[0] = duration_buffer_temp[0];
+	duration_buffer_1[1] = duration_buffer_temp[1];
+	duration_buffer_1[2] = duration_buffer_temp[2];
+}
+
+void main2temp()
+{
+	duration_buffer_temp[0] = duration_buffer_1[0];
+	duration_buffer_temp[1] = duration_buffer_1[1];
+	duration_buffer_temp[2] = duration_buffer_1[2];
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

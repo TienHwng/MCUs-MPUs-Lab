@@ -1,1 +1,3 @@
-../Core/Src/input_processing.c:15:6:fsm_for_input_processing	19
+../Core/Src/input_processing.c:16:6:fsm_for_input_processing	24
+../Core/Src/input_processing.c:111:6:temp2main	1
+../Core/Src/input_processing.c:118:6:main2temp	1

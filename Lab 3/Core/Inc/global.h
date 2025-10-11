@@ -32,13 +32,14 @@
 extern int systemMode;
 extern int trafficState;
 extern int start_new_loop;
+extern int is_first_time;
 
 extern int countDownDur1;
 extern int countDownDur2;
 
-extern int duration_buffer[N0_OF_MODES];
-extern int duration_buffer_1[N0_OF_MODES];
-extern int duration_buffer_2[N0_OF_MODES];
+extern int duration_buffer_temp[3];
+extern int duration_buffer_1[3];
+extern int duration_buffer_2[3];
 
 
 #endif /* INC_GLOBAL_H_ */
