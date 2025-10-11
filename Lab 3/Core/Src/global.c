@@ -9,3 +9,4 @@
 
 int systemMode = 0;
 int normalTrafficStatus = 0;
+int start_new_loop = 1;

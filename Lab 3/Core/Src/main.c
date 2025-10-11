@@ -105,8 +105,10 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
   systemMode = INIT;
+  start_new_loop = 1;
 
   setTimer0(TIMER_CYCLE);
+  setTimer3(TIMER_CYCLE);
 
   while (1)
   {
@@ -114,7 +116,19 @@ int main(void)
 
     /* USER CODE BEGIN 3 */
 
+	  if (timer3_flag == 1) {
+		  fsm_for_input_processing();
+		  fsm_traffic_run();
+
+		  setTimer3(100);
+	  }
+
 	  fsm_traffic_run();
+
+//	  for (int index_led = 0; index_led < MAX_LED; index_led++) {
+//		  update7SEG(index_led);
+//		  HAL_Delay(1);
+//	  }
   }
   /* USER CODE END 3 */
 }

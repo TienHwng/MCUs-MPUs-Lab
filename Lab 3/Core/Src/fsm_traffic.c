@@ -6,101 +6,75 @@
  */
 
 #include "fsm_traffic.h"
+//#include "leds_display.h"
 
 void fsm_traffic_run() {
-	switch(systemMode) {
-		case INIT:
-			HAL_GPIO_WritePin(GPIOB, LED_RED_1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_RED_2_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_YELLOW_1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_YELLOW_2_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_GREEN_1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_GREEN_2_Pin, GPIO_PIN_RESET);
+	switch(systemMode)
+	{
+	case INIT:
+		if(timer0_flag == 1) {
+			setTimer0(250);
 
-			if (is_button_pressed(0)) {
-				systemMode = SET_RED;
-			}
-			setTimer1(5000);
-			break;
+			HAL_GPIO_TogglePin(GPIOB, LED_RED_1_Pin);
+			HAL_GPIO_TogglePin(GPIOB, LED_RED_2_Pin);
+			HAL_GPIO_TogglePin(GPIOB, LED_YELLOW_1_Pin);
+			HAL_GPIO_TogglePin(GPIOB, LED_YELLOW_2_Pin);
+			HAL_GPIO_TogglePin(GPIOB, LED_GREEN_1_Pin);
+			HAL_GPIO_TogglePin(GPIOB, LED_GREEN_2_Pin);
+		}
 
-		case SET_RED:
+		break;
 
-			HAL_GPIO_WritePin(GPIOB, LED_YELLOW_1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_YELLOW_2_Pin, GPIO_PIN_RESET);
+	case SET_RED:
+		HAL_GPIO_WritePin(GPIOB, LED_YELLOW_1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, LED_YELLOW_2_Pin, GPIO_PIN_RESET);
 
-			HAL_GPIO_WritePin(GPIOB, LED_GREEN_1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_GREEN_2_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, LED_GREEN_1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, LED_GREEN_2_Pin, GPIO_PIN_RESET);
 
-			if(timer0_flag == 1) {
-				setTimer0(500);
+		if(timer0_flag == 1) {
+			setTimer0(250);
 
-				HAL_GPIO_TogglePin(GPIOB, LED_RED_1_Pin);
-				HAL_GPIO_TogglePin(GPIOB, LED_RED_2_Pin);
-			}
+			HAL_GPIO_TogglePin(GPIOB, LED_RED_1_Pin);
+			HAL_GPIO_TogglePin(GPIOB, LED_RED_2_Pin);
+		}
 
-//			if(timer1_flag == 1) {
-//				systemMode = SET_YELLOW;
-//				setTimer1(3000);
-//			}
+		break;
 
-			if (is_button_pressed(0)) {
-				systemMode = SET_YELLOW;
-			}
+	case SET_YELLOW:
+		HAL_GPIO_WritePin(GPIOB, LED_RED_1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, LED_RED_2_Pin, GPIO_PIN_RESET);
 
-			break;
+		HAL_GPIO_WritePin(GPIOB, LED_GREEN_1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, LED_GREEN_2_Pin, GPIO_PIN_RESET);
 
-		case SET_YELLOW:
-			HAL_GPIO_WritePin(GPIOB, LED_RED_1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_RED_2_Pin, GPIO_PIN_RESET);
+		if(timer0_flag == 1) {
+			setTimer0(250);
 
-			HAL_GPIO_WritePin(GPIOB, LED_GREEN_1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_GREEN_2_Pin, GPIO_PIN_RESET);
+			HAL_GPIO_TogglePin(GPIOB, LED_YELLOW_1_Pin);
+			HAL_GPIO_TogglePin(GPIOB, LED_YELLOW_2_Pin);
+		}
 
-			if(timer0_flag == 1) {
-				setTimer0(500);
+		break;
 
-				HAL_GPIO_TogglePin(GPIOB, LED_YELLOW_1_Pin);
-				HAL_GPIO_TogglePin(GPIOB, LED_YELLOW_2_Pin);
-			}
+	case SET_GREEN:
+		HAL_GPIO_WritePin(GPIOB, LED_RED_1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, LED_RED_2_Pin, GPIO_PIN_RESET);
 
-//			if(timer1_flag == 1) {
-//				systemMode = SET_GREEN;
-//				setTimer1(5000);
-//			}
-
-			if (is_button_pressed(0)) {
-				systemMode = SET_GREEN;
-			}
-
-			break;
-
-		case SET_GREEN:
-			HAL_GPIO_WritePin(GPIOB, LED_RED_1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_RED_2_Pin, GPIO_PIN_RESET);
-
-			HAL_GPIO_WritePin(GPIOB, LED_YELLOW_1_Pin, GPIO_PIN_RESET);
-			HAL_GPIO_WritePin(GPIOB, LED_YELLOW_2_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, LED_YELLOW_1_Pin, GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOB, LED_YELLOW_2_Pin, GPIO_PIN_RESET);
 
 
-			if(timer0_flag == 1) {
-				setTimer0(500);
+		if(timer0_flag == 1) {
+			setTimer0(250);
 
-				HAL_GPIO_TogglePin(GPIOB, LED_GREEN_1_Pin);
-				HAL_GPIO_TogglePin(GPIOB, LED_GREEN_2_Pin);
-			}
+			HAL_GPIO_TogglePin(GPIOB, LED_GREEN_1_Pin);
+			HAL_GPIO_TogglePin(GPIOB, LED_GREEN_2_Pin);
+		}
 
-//			if(timer1_flag == 1) {
-//				systemMode = SET_RED;
-//				setTimer1(5000);
-//			}
+		break;
 
-			if (is_button_pressed(0)) {
-				systemMode = SET_RED;
-			}
-
-			break;
-
-		default:
-			break;
+	default:
+		break;
 	}
 }
