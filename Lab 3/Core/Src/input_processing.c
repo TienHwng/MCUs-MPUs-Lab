@@ -23,6 +23,7 @@ void fsm_for_input_processing(void) {
 				if (systemMode > SET_GREEN) {
 					systemMode = INIT;
 					trafficState = RED1_GREEN2_AUTO;
+					start_new_loop = 1;
 				}
 
 			}
