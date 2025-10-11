@@ -17,8 +17,14 @@ void fsm_for_input_processing(void) {
 		case BUTTON_RELEASED:
 			if(is_button_pressed(0)) {
 				buttonState = BUTTON_PRESSED;
-				//INCREASE VALUE OF PORT A BY ONE UNIT
-				systemMode = (systemMode + 1) % N0_OF_MODES;
+
+				// Tăng mode và quay vòng
+				systemMode++;
+				if (systemMode > SET_GREEN) {
+					systemMode = INIT;
+					trafficState = RED1_GREEN2_AUTO;
+				}
+
 			}
 			break;
 

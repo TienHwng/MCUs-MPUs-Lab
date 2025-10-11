@@ -12,18 +12,26 @@
 #include "input_processing.h"
 #include "input_reading.h"
 
-#define INIT					1
 
-#define SET_RED					2
-#define SET_YELLOW				3
-#define SET_GREEN				4
+// ==== SYSTEM MODES ====
+#define INIT       			 	1
 
-#define RED1_GREEN2_AUTO		12
-#define RED1_YELLOW2_AUTO		13
-#define GREEN1_RED2_AUTO		14
-#define YELLOW1_RED2_AUTO		15
+#define SET_RED     			2
+#define SET_YELLOW  			3
+#define SET_GREEN  				4
+
+// ==== TRAFFIC STATES ====
+#define RED1_GREEN2_AUTO   		11
+#define RED1_YELLOW2_AUTO  		12
+#define GREEN1_RED2_AUTO   		13
+#define YELLOW1_RED2_AUTO  		14
 
 extern int systemMode;
-extern int normalTrafficStatus;
+extern int trafficState;
+extern int start_new_loop;
+
+extern int red_ms;
+extern int yellow_ms;
+extern int green_ms;
 
 #endif /* INC_GLOBAL_H_ */

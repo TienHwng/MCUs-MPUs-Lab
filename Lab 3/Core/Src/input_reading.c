@@ -6,7 +6,21 @@
  */
 
 #include "main.h"
+#include "input_reading.h"
 #include "global.h"
+
+// The buffer that the final result is stored after debouncing
+static GPIO_PinState buttonBuffer[N0_OF_BUTTONS] 			= {BUTTON_IS_RELEASED};
+
+// We define two buffers for debouncing
+static GPIO_PinState debounceButtonBuffer1[N0_OF_BUTTONS]	= {BUTTON_IS_RELEASED};
+static GPIO_PinState debounceButtonBuffer2[N0_OF_BUTTONS]	= {BUTTON_IS_RELEASED};
+
+// We define a flag for a button pressed more than 1 second.
+static uint8_t flagForButtonPress1s[N0_OF_BUTTONS]			= {0};
+
+// We define counter for automatically increasing the value after the button is pressed more than 1 second.
+static uint16_t counterForButtonPress1s[N0_OF_BUTTONS]		= {0};
 
 int BUTTON_Pins[N0_OF_BUTTONS] = {
 		BUTTON_1_Pin//, BUTTON_2_Pin, BUTTON_3_Pin

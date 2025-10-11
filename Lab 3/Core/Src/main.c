@@ -22,11 +22,11 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include "leds_display.h"
 #include "input_processing.h"
 #include "input_reading.h"
 #include "software_timer.h"
 #include "fsm_traffic.h"
-#include "display7seg.h"
 
 /* USER CODE END Includes */
 
@@ -105,25 +105,37 @@ int main(void)
   /* USER CODE BEGIN WHILE */
 
   systemMode = INIT;
+  trafficState = RED1_GREEN2_AUTO;
+  start_new_loop = 1;
 
   setTimer0(TIMER_CYCLE);
   setTimer1(TIMER_CYCLE);
+  setTimer2(TIMER_CYCLE);
+  setTimer3(TIMER_CYCLE);
 
   while (1)
   {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	  if (timer3_flag == 1) {
+		  fsm_for_input_processing();
+		  fsm_traffic_run();
 
-	  if (timer1_flag == 1) {
-		updateModeToBuffer(systemMode);
-		update7SEG(index_led++);
-		index_led %= MAX_LED;
-
-		setTimer1(100);
+		  setTimer3(100);
 	  }
 
-	  fsm_traffic_run();
+	  if (timer1_flag == 1) {
+		  updateModeToBuffer(systemMode);
+		  update7SEG(index_led);
+		  index_led = (index_led + 1) % 4;
+		  setTimer1(100);
+	  }
+
+//	  for (int index_led = 0; index_led < MAX_LED; index_led++) {
+//		  update7SEG(index_led);
+//		  HAL_Delay(1);
+//	  }
   }
   /* USER CODE END 3 */
 }

@@ -1,0 +1,5 @@
+../Core/Src/leds_display.c:39:6:updateModeToBuffer	16	static
+../Core/Src/leds_display.c:45:6:updateDurToBuffer	16	static
+../Core/Src/leds_display.c:51:6:display7SEG	24	static
+../Core/Src/leds_display.c:61:6:update7SEG	24	static
+../Core/Src/leds_display.c:74:6:setLEDs	56	static

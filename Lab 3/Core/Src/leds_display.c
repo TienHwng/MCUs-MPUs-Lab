@@ -5,7 +5,7 @@
  *      Author: Hwng
  */
 
-#include "display7seg.h"
+#include <leds_display.h>
 
 int index_led = 0;
 int led_buffer[4] = {0, 0, 0, 0};
@@ -29,6 +29,11 @@ int SEG_Pins[7] = {
 
 int EN_Pins[4] = {
 	EN0_Pin, EN1_Pin, EN2_Pin, EN3_Pin
+};
+
+int all_LEDs[6] = {
+	LED_RED_1_Pin, LED_YELLOW_1_Pin, LED_GREEN_1_Pin,
+	LED_RED_2_Pin, LED_YELLOW_2_Pin, LED_GREEN_2_Pin
 };
 
 void updateModeToBuffer(int mode)
@@ -64,4 +69,17 @@ void update7SEG(int index)
 		HAL_GPIO_WritePin(GPIOA, EN_Pins[index], GPIO_PIN_RESET);
 		display7SEG(led_buffer[index]);
 	}
+}
+
+void setLEDs(int pin1, int pin2, int pin3, int pin4, int pin5, int pin6)
+{
+    for (int i = 0; i < 6; i++) {
+        HAL_GPIO_WritePin(GPIOB, all_LEDs[i], GPIO_PIN_RESET);
+    }
+
+    int pins[] = {pin1, pin2, pin3, pin4, pin5, pin6};
+    for (int i = 0; i < 6; i++) {
+        if (pins[i] == -1 || pins[i] == 0) break;
+        HAL_GPIO_WritePin(GPIOB, pins[i], GPIO_PIN_SET);
+    }
 }

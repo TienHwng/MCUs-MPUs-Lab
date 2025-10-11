@@ -1,4 +1,0 @@
-../Core/Src/display7seg.c:34:6:updateModeToBuffer	1
-../Core/Src/display7seg.c:40:6:updateDurToBuffer	1
-../Core/Src/display7seg.c:46:6:display7SEG	2
-../Core/Src/display7seg.c:56:6:update7SEG	4
