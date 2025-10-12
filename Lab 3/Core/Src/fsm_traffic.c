@@ -70,6 +70,9 @@ void fsm_traffic_run() {
 				setTimer2(duration_buffer_2[2]);
 			}
 			break;
+
+		default:
+			break;
 		}
 		break;
 
