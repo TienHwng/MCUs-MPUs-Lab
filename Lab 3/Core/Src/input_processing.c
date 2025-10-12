@@ -43,8 +43,8 @@ void fsm_for_input_processing(void) {
 				else if(button_index == 2) {
 					temp2main();
 
-					duration_buffer_2[2] = round(duration_buffer_1[0] * 7 / 10);
-					duration_buffer_2[1] = round(duration_buffer_1[0] * 3 / 10);
+					duration_buffer_2[2] = round((duration_buffer_1[0] * 6 / 10) / 1000) * 1000;
+					duration_buffer_2[1] = round((duration_buffer_1[0] * 4 / 10) / 1000) * 1000;
 					duration_buffer_2[0] = duration_buffer_1[1] + duration_buffer_1[2];
 
 					trafficState = RED1_GREEN2_AUTO;

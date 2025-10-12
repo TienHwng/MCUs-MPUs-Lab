@@ -26,48 +26,48 @@ void fsm_traffic_run() {
 		case RED1_GREEN2_AUTO:
 			setTrafficLights(SET, RESET, RESET, RESET, RESET, SET);
 			if (timer2_flag == 1) {
+				setTimer2(duration_buffer_2[1]);
+
 				// We dont need to update countDownDur1 here
 				countDownDur2 = duration_buffer_2[1];
 
 				trafficState = RED1_YELLOW2_AUTO;
-
-				setTimer2(duration_buffer_2[1]);
 			}
 			break;
 
 		case RED1_YELLOW2_AUTO:
 			setTrafficLights(SET, RESET, RESET, RESET, SET, RESET);
 			if (timer2_flag == 1) {
+				setTimer2(duration_buffer_1[2]);
+
 				countDownDur1 = duration_buffer_1[2];
 				countDownDur2 = duration_buffer_2[0];
 
 				trafficState = GREEN1_RED2_AUTO;
-
-				setTimer2(duration_buffer_1[2]);
 			}
 			break;
 
 		case GREEN1_RED2_AUTO:
 			setTrafficLights(RESET, RESET, SET, SET, RESET, RESET);
 			if (timer2_flag == 1) {
+				setTimer2(duration_buffer_1[1]);
+
 				countDownDur1 = duration_buffer_1[1];
 				// We dont need to update countDownDur2 here
 
 				trafficState = YELLOW1_RED2_AUTO;
-
-				setTimer2(duration_buffer_1[1]);
 			}
 			break;
 
 		case YELLOW1_RED2_AUTO:
 			setTrafficLights(RESET, SET, RESET, SET, RESET, RESET);
 			if (timer2_flag == 1) {
+				setTimer2(duration_buffer_2[2]);
+
 				countDownDur1 = duration_buffer_1[0];
 				countDownDur2 = duration_buffer_2[2];
 
 				trafficState = RED1_GREEN2_AUTO;
-
-				setTimer2(duration_buffer_2[2]);
 			}
 			break;
 
