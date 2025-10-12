@@ -5,5 +5,5 @@
 ../Core/Src/leds_display.c:73:6:display7SEG2	2
 ../Core/Src/leds_display.c:83:6:update7SEG1	4
 ../Core/Src/leds_display.c:96:6:update7SEG2	4
-../Core/Src/leds_display.c:109:6:setLEDs	5
+../Core/Src/leds_display.c:110:6:setTrafficLights	1
 ../Core/Src/leds_display.c:122:6:clearTrafficLEDs	2

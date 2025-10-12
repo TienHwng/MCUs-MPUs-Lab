@@ -9,7 +9,6 @@
 #include "input_processing.h"
 #include "global.h"
 
-
 enum ButtonState{BUTTON_RELEASED, BUTTON_PRESSED, BUTTON_PRESSED_MORE_THAN_1_SECOND} ;
 enum ButtonState buttonState[N0_OF_BUTTONS] = {BUTTON_RELEASED, BUTTON_RELEASED, BUTTON_RELEASED};
 
@@ -23,14 +22,15 @@ void fsm_for_input_processing(void) {
 
 				if(button_index == 0) {
 					systemMode++;
-					is_first_time = 1;
+//					is_first_time = 1;
+					main2temp();
 				}
 
 				else if(button_index == 1 && systemMode != INIT) {
-					if(is_first_time) {
-						is_first_time = 0;
-						main2temp();
-					}
+//					if(is_first_time == 1) {
+//						is_first_time = 0;
+//						main2temp();
+//					}
 
 					duration_buffer_temp[systemMode - 2] += 1000;
 
@@ -46,15 +46,15 @@ void fsm_for_input_processing(void) {
 					duration_buffer_2[1] = round(duration_buffer_1[0] * 3 / 10);
 					duration_buffer_2[0] = duration_buffer_1[1] + duration_buffer_1[2];
 
-					systemMode = INIT;
 					trafficState = RED1_GREEN2_AUTO;
 					start_new_loop = 1;
+					systemMode = INIT;
 				}
 
 				if (systemMode > SET_GREEN ) {
-					systemMode = INIT;
 					trafficState = RED1_GREEN2_AUTO;
 					start_new_loop = 1;
+					systemMode = INIT;
 				}
 			}
 			break;
@@ -78,13 +78,15 @@ void fsm_for_input_processing(void) {
 				if(flagForLongPress[button_index] == 1) {
 					if(button_index == 0) {
 						systemMode++;
-						is_first_time = 1;
+						main2temp();
+
+//						is_first_time = 1;
 					}
 					else if(button_index == 1 && systemMode != INIT) {
-						if(is_first_time) {
-							is_first_time = 0;
-							main2temp();
-						}
+//						if(is_first_time == 1) {
+//							is_first_time = 0;
+//							main2temp();
+//						}
 
 						duration_buffer_temp[systemMode - 2] += 1000;
 
@@ -96,10 +98,10 @@ void fsm_for_input_processing(void) {
 					flagForLongPress[button_index] = 0;
 				}
 
-				if (systemMode > SET_GREEN ) {
-					systemMode = INIT;
+				if(systemMode > SET_GREEN) {
 					trafficState = RED1_GREEN2_AUTO;
 					start_new_loop = 1;
+					systemMode = INIT;
 				}
 			}
 

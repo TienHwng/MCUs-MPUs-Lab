@@ -27,7 +27,8 @@ void updateModeToBuffer(int mode);
 void updateSetDuration(int led_duration);
 void updateDurToBuffer(int main_dur, int sub_dur);
 
-void setLEDs(int pin1, int pin2, int pin3, int pin4, int pin5, int pin6);
+void setTrafficLights(GPIO_PinState red1, GPIO_PinState yellow1, GPIO_PinState green1,
+                      GPIO_PinState red2, GPIO_PinState yellow2, GPIO_PinState green2);
 void clearTrafficLEDs();
 
 #endif /* INC_LEDS_DISPLAY_H_ */

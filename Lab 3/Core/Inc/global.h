@@ -11,23 +11,28 @@
 #include <stdio.h>
 #include <math.h>
 
+
 #include "software_timer.h"
 #include "input_processing.h"
 #include "input_reading.h"
 
+// ===== SYSTEM MODES =====
+#define INIT       			 		1
 
-// ==== SYSTEM MODES ====
-#define INIT       			 	1
+#define SET_RED     				2
+#define SET_YELLOW  				3
+#define SET_GREEN  					4
 
-#define SET_RED     			2
-#define SET_YELLOW  			3
-#define SET_GREEN  				4
+// ===== TRAFFIC STATES =====
+#define RED1_GREEN2_AUTO   			11
+#define RED1_YELLOW2_AUTO  			12
+#define GREEN1_RED2_AUTO   			13
+#define YELLOW1_RED2_AUTO  			14
 
-// ==== TRAFFIC STATES ====
-#define RED1_GREEN2_AUTO   		11
-#define RED1_YELLOW2_AUTO  		12
-#define GREEN1_RED2_AUTO   		13
-#define YELLOW1_RED2_AUTO  		14
+// ===== DEFAULT TRAFFIC TIME =====
+#define DEFAULT_RED 				5000
+#define DEFAULT_YELLOW 				2000
+#define DEFAULT_GREEN 				3000
 
 extern int systemMode;
 extern int trafficState;

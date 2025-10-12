@@ -106,17 +106,17 @@ void update7SEG2(int index)
 	}
 }
 
-void setLEDs(int pin1, int pin2, int pin3, int pin4, int pin5, int pin6)
+// Need to be improved
+void setTrafficLights(GPIO_PinState red1, GPIO_PinState yellow1, GPIO_PinState green1,
+                      GPIO_PinState red2, GPIO_PinState yellow2, GPIO_PinState green2)
 {
-    for (int i = 0; i < 6; i++) {
-        HAL_GPIO_WritePin(GPIOB, all_LEDs[i], GPIO_PIN_RESET);
-    }
+    HAL_GPIO_WritePin(GPIOB, LED_RED_1_Pin, red1);
+    HAL_GPIO_WritePin(GPIOB, LED_YELLOW_1_Pin, yellow1);
+    HAL_GPIO_WritePin(GPIOB, LED_GREEN_1_Pin, green1);
 
-    int pins[] = {pin1, pin2, pin3, pin4, pin5, pin6};
-    for (int i = 0; i < 6; i++) {
-        if (pins[i] == -1 || pins[i] == 0) break;
-        HAL_GPIO_WritePin(GPIOB, pins[i], GPIO_PIN_SET);
-    }
+    HAL_GPIO_WritePin(GPIOB, LED_RED_2_Pin, red2);
+    HAL_GPIO_WritePin(GPIOB, LED_YELLOW_2_Pin, yellow2);
+    HAL_GPIO_WritePin(GPIOB, LED_GREEN_2_Pin, green2);
 }
 
 void clearTrafficLEDs() {

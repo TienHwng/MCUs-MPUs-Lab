@@ -43,13 +43,11 @@ void button_reading(void) {
 
 		if(buttonBuffer[i] == BUTTON_IS_PRESSED) {
 			// If a button is pressed, we start counting
-
 			if(counterForButtonPress1s[i] < DURATION_FOR_AUTO_INCREASING) {
 				counterForButtonPress1s[i] += TIMER_CYCLE;
 			}
 			else {
 				// The flag is turned on when 1 second has passed since the button is pressed.
-
 				flagForButtonPress1s[i] = 1;
 				counterAfterLongPress[i] += TIMER_CYCLE;
 

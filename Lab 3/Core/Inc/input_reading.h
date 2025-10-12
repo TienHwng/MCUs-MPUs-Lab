@@ -9,7 +9,7 @@
 #define INC_INPUT_READING_H_
 
 #include "main.h"
-#include "input_processing.h"
+#include "global.h"
 
 #define N0_OF_BUTTONS 				    	3
 #define N0_OF_MODES							4
