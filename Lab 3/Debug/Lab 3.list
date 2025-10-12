@@ -818,14 +818,14 @@ void fsm_for_input_processing(void) {
 					main2temp();
  8000780:	f000 f92a 	bl	80009d8 <main2temp>
  8000784:	e069      	b.n	800085a <fsm_for_input_processing+0x132>
-				else if(button_index == 1 && systemMode != INIT) {
+				else if(button_index == 1 && systemMode > INIT) {
  8000786:	687b      	ldr	r3, [r7, #4]
  8000788:	2b01      	cmp	r3, #1
  800078a:	d123      	bne.n	80007d4 <fsm_for_input_processing+0xac>
  800078c:	4b7e      	ldr	r3, [pc, #504]	@ (8000988 <fsm_for_input_processing+0x260>)
  800078e:	681b      	ldr	r3, [r3, #0]
  8000790:	2b01      	cmp	r3, #1
- 8000792:	d01f      	beq.n	80007d4 <fsm_for_input_processing+0xac>
+ 8000792:	dd1f      	ble.n	80007d4 <fsm_for_input_processing+0xac>
 					duration_buffer_temp[systemMode - 2] += 1000;
  8000794:	4b7c      	ldr	r3, [pc, #496]	@ (8000988 <fsm_for_input_processing+0x260>)
  8000796:	681b      	ldr	r3, [r3, #0]
@@ -1011,14 +1011,14 @@ void fsm_for_input_processing(void) {
 						main2temp();
  80008e6:	f000 f877 	bl	80009d8 <main2temp>
  80008ea:	e025      	b.n	8000938 <fsm_for_input_processing+0x210>
-					else if(button_index == 1 && systemMode != INIT) {
+					else if(button_index == 1 && systemMode > INIT) {
  80008ec:	687b      	ldr	r3, [r7, #4]
  80008ee:	2b01      	cmp	r3, #1
  80008f0:	d122      	bne.n	8000938 <fsm_for_input_processing+0x210>
  80008f2:	4b25      	ldr	r3, [pc, #148]	@ (8000988 <fsm_for_input_processing+0x260>)
  80008f4:	681b      	ldr	r3, [r3, #0]
  80008f6:	2b01      	cmp	r3, #1
- 80008f8:	d01e      	beq.n	8000938 <fsm_for_input_processing+0x210>
+ 80008f8:	dd1e      	ble.n	8000938 <fsm_for_input_processing+0x210>
 						duration_buffer_temp[systemMode - 2] += 1000;
  80008fa:	4b23      	ldr	r3, [pc, #140]	@ (8000988 <fsm_for_input_processing+0x260>)
  80008fc:	681b      	ldr	r3, [r3, #0]
@@ -2034,11 +2034,11 @@ int main(void)
  8000fbe:	681b      	ldr	r3, [r3, #0]
  8000fc0:	2b01      	cmp	r3, #1
  8000fc2:	d1ca      	bne.n	8000f5a <main+0x4a>
-		  if (systemMode != INIT) {
+		  if (systemMode > INIT) {
  8000fc4:	4b19      	ldr	r3, [pc, #100]	@ (800102c <main+0x11c>)
  8000fc6:	681b      	ldr	r3, [r3, #0]
  8000fc8:	2b01      	cmp	r3, #1
- 8000fca:	d013      	beq.n	8000ff4 <main+0xe4>
+ 8000fca:	dd13      	ble.n	8000ff4 <main+0xe4>
 			  updateModeToBuffer(systemMode);
  8000fcc:	4b17      	ldr	r3, [pc, #92]	@ (800102c <main+0x11c>)
  8000fce:	681b      	ldr	r3, [r3, #0]

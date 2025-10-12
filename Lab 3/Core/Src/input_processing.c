@@ -22,11 +22,12 @@ void fsm_for_input_processing(void) {
 
 				if(button_index == 0) {
 					systemMode++;
-//					is_first_time = 1;
 					main2temp();
+
+//					is_first_time = 1;
 				}
 
-				else if(button_index == 1 && systemMode != INIT) {
+				else if(button_index == 1 && systemMode > INIT) {
 //					if(is_first_time == 1) {
 //						is_first_time = 0;
 //						main2temp();
@@ -82,7 +83,7 @@ void fsm_for_input_processing(void) {
 
 //						is_first_time = 1;
 					}
-					else if(button_index == 1 && systemMode != INIT) {
+					else if(button_index == 1 && systemMode > INIT) {
 //						if(is_first_time == 1) {
 //							is_first_time = 0;
 //							main2temp();

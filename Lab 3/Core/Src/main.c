@@ -136,7 +136,7 @@ int main(void)
 	  }
 
 	  if (timer1_flag == 1) {
-		  if (systemMode != INIT) {
+		  if (systemMode > INIT) {
 			  updateModeToBuffer(systemMode);
 
 			  updateSetDuration(duration_buffer_temp[systemMode - 2] / 1000);
