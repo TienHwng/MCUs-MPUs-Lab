@@ -65,7 +65,12 @@ void SCH_Update(void) {
 				SCH_tasks_G[Index].RunMe += 1;
 				if (SCH_tasks_G[Index].Period) {
 					// Schedule periodic tasks to run again
-					SCH_tasks_G[Index].Delay = SCH_tasks_G[Index].Period;
+					SCH_tasks_G[Index].Delay = SCH_tasks_G[Index].Period - 1;
+
+					// debug
+//					char msg[50];
+//					sprintf(msg, "Delay: %lu tick\r\n", SCH_tasks_G[Index].Delay);
+//					HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 				}
 			} else {
 				// Not yet ready to run: just decrement the delay
@@ -92,7 +97,7 @@ void SCH_Dispatch_Tasks(void) {
 			if (SCH_tasks_G[Index].pTask != timeout_10ms && SCH_tasks_G[Index].pTask != Watchdog_Task) {
 				char msg[60];
 				sprintf(msg, "[%lu ms] Task %u finished\r\n", get_time(), Index);
-				HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), 10);
+				HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 			}
 		}
 	}

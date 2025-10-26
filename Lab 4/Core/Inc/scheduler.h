@@ -13,7 +13,7 @@
 #include "tasks.h"
 
 /* Tasks define */
-#define SCH_MAX_TASKS 					40
+#define SCH_MAX_TASKS 					10
 #define NO_TASK_ID 						0
 
 /* Error codes */

@@ -119,23 +119,24 @@ int main(void)
   	System_Initialization();
   	SCH_Init(); // <- Timer Interupt (htim2) start in here
 
-//  	SCH_Add_Task(oneShotLED, 0, 0);
-//  	SCH_Add_Task(led_500_ms, 0, 500);
-//  	SCH_Add_Task(led_1000_ms, 0, 1000);
-//  	SCH_Add_Task(led_1500_ms, 0, 1500);
-//  	SCH_Add_Task(led_2000_ms, 0, 2000);
-//  	SCH_Add_Task(led_2500_ms, 0, 2500);
-
   	SCH_Add_Task(oneShotLED, 0, 0);
-	SCH_Add_Task(led_500_ms, 0, 500);
-	SCH_Add_Task(led_1000_ms, 500, 1000);
-	SCH_Add_Task(led_1500_ms, 1500, 1500);
-	SCH_Add_Task(led_2000_ms, 3000, 2000);
-	SCH_Add_Task(led_2500_ms, 5000, 2500);
+  	SCH_Add_Task(led_500_ms, 0, 500);
+  	SCH_Add_Task(led_1000_ms, 0, 1000);
+  	SCH_Add_Task(led_1500_ms, 0, 1500);
+  	SCH_Add_Task(led_2000_ms, 0, 2000);
+  	SCH_Add_Task(led_2500_ms, 0, 2500);
+
+//  	SCH_Add_Task(oneShotLED, 0, 0);
+//	SCH_Add_Task(led_500_ms, 0, 500);
+//	SCH_Add_Task(led_1000_ms, 500, 1000);
+//	SCH_Add_Task(led_1500_ms, 1500, 1500);
+//	SCH_Add_Task(led_2000_ms, 3000, 2000);
+//	SCH_Add_Task(led_2500_ms, 5000, 2500);
 
   	SCH_Add_Task(Watchdog_Task, 0, 100);
 
   	SCH_Add_Task(timeout_10ms, 0, 10);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -328,10 +329,14 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
-	if (htim->Instance == TIM2){
+	if (htim->Instance == TIM2) {
 		SCH_Update();
 
-		systime += 10;
+//		char msg[50];
+//		sprintf(msg, "System Time: %lu ms\r\n", get_time());
+//		HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+
+//		systime += 10;
 	}
 }
 /* USER CODE END 4 */

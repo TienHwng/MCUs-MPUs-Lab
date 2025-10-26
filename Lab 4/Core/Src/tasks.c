@@ -25,9 +25,9 @@ void led_2000_ms(void) { ledDisplay(4); }
 void led_2500_ms(void) { ledDisplay(5); }
 
 void timeout_10ms(void) {
-//	systime += 10;
-
 	char msg[50];
 	sprintf(msg, "Current timestamp: %lu ms\r\n", get_time());
-	HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), 10);
+	HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+
+	systime += 10;
 }
