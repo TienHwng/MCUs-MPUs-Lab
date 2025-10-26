@@ -127,10 +127,11 @@ int main(void)
 	  }
 
 	  if (timer4_flag == 1) {
-		  countDownDur1 -= 250;
-		  countDownDur2 -= 250;
-
-		  updateDurToBuffer(countDownDur1 / 1000 + 1, countDownDur2 / 1000 + 1);
+		  if(systemMode == INIT) {
+			  countDownDur1 -= 250;
+			  countDownDur2 -= 250;
+			  updateDurToBuffer(countDownDur1 / 1000 + 1, countDownDur2 / 1000 + 1);
+		  }
 
 		  setTimer4(250);
 	  }

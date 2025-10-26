@@ -1,6 +1,7 @@
 .metadata/
 testbench/
 to_be_deleted/
+Lab 4 - fail/
 
 Proteus Simulation/*.workspace
 Proteus Simulation/*.pdsbak
