@@ -1,0 +1,9 @@
+../Core/Src/tasks.c:10:10:get_time	1
+../Core/Src/tasks.c:15:6:ledDisplay	3
+../Core/Src/tasks.c:20:6:oneShotLED	1
+../Core/Src/tasks.c:21:6:led_500_ms	1
+../Core/Src/tasks.c:22:6:led_1000_ms	1
+../Core/Src/tasks.c:23:6:led_1500_ms	1
+../Core/Src/tasks.c:24:6:led_2000_ms	1
+../Core/Src/tasks.c:25:6:led_2500_ms	1
+../Core/Src/tasks.c:27:6:timeout_10ms	1
