@@ -11,6 +11,7 @@ sTask SCH_tasks_G[SCH_MAX_TASKS];
 unsigned char Error_code_G = ERROR_NONE;
 unsigned char Last_error_code_G = ERROR_NONE;
 static uint32_t counter_for_watchdog = 0;
+static int task_counter = 0;
 
 void SCH_Init(void) {
 	deleteAllTasks();
@@ -31,7 +32,7 @@ or after a user-defined delay
 unsigned char SCH_Add_Task(void (*pFunction)(), unsigned int DELAY, unsigned int PERIOD) {
 	unsigned char Index = 0;
 	// First find a gap in the array (if there is one)
-	while ((SCH_tasks_G[Index].pTask != 0) && (Index < SCH_MAX_TASKS)) {
+	while ((SCH_tasks_G[Index].pTask != NULL) && (Index < SCH_MAX_TASKS)) {
 		Index++;
 	}
 	// Have we reached the end of the lists?
@@ -65,7 +66,7 @@ unsigned char SCH_Add_Task(void (*pFunction)(), unsigned int DELAY, unsigned int
 	SCH_tasks_G[Index].Delay = DELAY / TICK_MS; // <- 10 is the tick rate
 	SCH_tasks_G[Index].Period = PERIOD / TICK_MS; // <- 10 is the tick rate
 	SCH_tasks_G[Index].RunMe = 0;
-	SCH_tasks_G[Index].TaskID = Index;
+	SCH_tasks_G[Index].TaskID = task_counter++;
 	// return position of the task (to allow later deletion)
 	return Index;
 }
@@ -76,7 +77,7 @@ void SCH_Update(void) {
 	Watchdog_Counting();
 	// NOTE: calculations are in *TICKS* (not milliseconds)
 	for (Index = 0; Index < SCH_MAX_TASKS; Index++) {
-		if (SCH_tasks_G[Index].pTask) {
+		if (SCH_tasks_G[Index].pTask != NULL) {
 			if (SCH_tasks_G[Index].Delay == 0) {
 				// The task is due to run
 				// Inc. the 'RunMe' flag
@@ -131,7 +132,7 @@ unsigned char SCH_Delete_Task(const tByte TASK_INDEX) {
 		Error_code_G = ERROR_SCH_CANNOT_DELETE_TASK;
 		return RETURN_ERROR;
 	}
-	if (SCH_tasks_G[TASK_INDEX].pTask == 0) {
+	if (SCH_tasks_G[TASK_INDEX].pTask == NULL) {
 		// Np task at this location
 		//
 		// Set the global error variable
@@ -141,7 +142,7 @@ unsigned char SCH_Delete_Task(const tByte TASK_INDEX) {
 	} else {
 		Return_code = RETURN_NORMAL;
 	}
-	SCH_tasks_G[TASK_INDEX].pTask = 0x0000;
+	SCH_tasks_G[TASK_INDEX].pTask = NULL;
 	SCH_tasks_G[TASK_INDEX].Delay = 0;
 	SCH_tasks_G[TASK_INDEX].Period = 0;
 	SCH_tasks_G[TASK_INDEX].RunMe = 0;

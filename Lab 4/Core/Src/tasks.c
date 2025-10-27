@@ -7,6 +7,8 @@
 
 #include "tasks.h"
 
+static int is_first_time = 1;
+
 uint32_t get_time() {
 	return systime;
 //	return HAL_GetTick();
@@ -25,9 +27,12 @@ void led_2000_ms(void) { ledDisplay(4); }
 void led_2500_ms(void) { ledDisplay(5); }
 
 void timeout_10ms(void) {
+	is_first_time = 0;
+	if (!is_first_time) {
+		systime += TICK_MS;
+	}
+
 	char msg[50];
 	sprintf(msg, "Current timestamp: %lu ms\r\n", get_time());
 	HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
-
-	systime += TICK_MS;
 }
