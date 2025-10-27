@@ -29,5 +29,5 @@ void timeout_10ms(void) {
 	sprintf(msg, "Current timestamp: %lu ms\r\n", get_time());
 	HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
 
-	systime += 10;
+	systime += TICK_MS;
 }

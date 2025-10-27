@@ -12,6 +12,9 @@
 #include "main.h"
 #include "tasks.h"
 
+/* ms per tick */
+#define TICK_MS							10
+
 /* Tasks define */
 #define SCH_MAX_TASKS 					10
 #define NO_TASK_ID 						0
@@ -21,6 +24,13 @@
 #define ERROR_SCH_TOO_MANY_TASKS        1
 #define ERROR_SCH_CANNOT_DELETE_TASK    2
 #define ERROR_WATCHDOG_MISSED_REFRESH 	3
+#define ERROR_SCH_WAITING_FOR_SLAVE_TO_ACK 4
+#define ERROR_SCH_WAITING_FOR_START_COMMAND_FROM_MASTER 5
+#define ERROR_SCH_ONE_OR_MORE_SLAVES_DID_NOT_START 6
+#define ERROR_SCH_LOST_SLAVE 7
+#define ERROR_SCH_CAN_BUS_ERROR 8
+#define ERROR_I2C_WRITE_BYTE_AT24C64 9
+#define ERROR_SCH_TASK_ADD_FAIL 10
 
 /* Return codes */
 #define RETURN_NORMAL  					0

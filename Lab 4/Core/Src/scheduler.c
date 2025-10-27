@@ -40,12 +40,30 @@ unsigned char SCH_Add_Task(void (*pFunction)(), unsigned int DELAY, unsigned int
 		// Set the global error variable
 		Error_code_G = ERROR_SCH_TOO_MANY_TASKS;
 		// Also return an error code
+
+
+		char msg[100];
+		sprintf(msg, "Task add fail. Too many tasks! \r\nError code: %d \r\n", ERROR_SCH_TOO_MANY_TASKS);
+		HAL_UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg), HAL_MAX_DELAY);
+
 		return SCH_MAX_TASKS;
 	}
+
+	// Case < 0
+	if ((int)DELAY < 0 || (int)PERIOD < 0) {
+		Error_code_G = ERROR_SCH_TASK_ADD_FAIL;
+
+		char msg1[100];
+		sprintf(msg1, "Task add fail. Period or Delay is negative! \r\nError code: %d \r\n", ERROR_SCH_TASK_ADD_FAIL);
+		HAL_UART_Transmit(&huart1, (uint8_t*)msg1, strlen(msg1), HAL_MAX_DELAY);
+
+		return RETURN_ERROR;
+	}
+
 	// If we're here, there is a space in the task array
 	SCH_tasks_G[Index].pTask = pFunction;
-	SCH_tasks_G[Index].Delay = DELAY / 10; // <- 10 is the tick rate
-	SCH_tasks_G[Index].Period = PERIOD / 10; // <- 10 is the tick rate
+	SCH_tasks_G[Index].Delay = DELAY / TICK_MS; // <- 10 is the tick rate
+	SCH_tasks_G[Index].Period = PERIOD / TICK_MS; // <- 10 is the tick rate
 	SCH_tasks_G[Index].RunMe = 0;
 	SCH_tasks_G[Index].TaskID = Index;
 	// return position of the task (to allow later deletion)
