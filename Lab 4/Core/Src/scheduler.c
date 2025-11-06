@@ -81,7 +81,7 @@ void SCH_Update(void) {
 			if (SCH_tasks_G[Index].Delay == 0) {
 				// The task is due to run
 				// Inc. the 'RunMe' flag
-				SCH_tasks_G[Index].RunMe += 1;
+				SCH_tasks_G[Index].RunMe = 1;
 				if (SCH_tasks_G[Index].Period) {
 					// Schedule periodic tasks to run again
 					SCH_tasks_G[Index].Delay = SCH_tasks_G[Index].Period - 1;
@@ -105,7 +105,7 @@ void SCH_Dispatch_Tasks(void) {
 	for (Index = 0; Index < SCH_MAX_TASKS; Index++) {
 		if (SCH_tasks_G[Index].RunMe > 0) {
 			(*SCH_tasks_G[Index].pTask)(); // Run the task
-			SCH_tasks_G[Index].RunMe -= 1; // Reset / reduce RunMe flag
+			SCH_tasks_G[Index].RunMe = 0; // Reset / reduce RunMe flag
 			// Periodic tasks will automatically run again
 			// - if this is a 'one shot' task, remove it from the array
 			if (SCH_tasks_G[Index].Period == 0) {
