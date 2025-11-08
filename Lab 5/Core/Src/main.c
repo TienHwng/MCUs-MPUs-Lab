@@ -22,6 +22,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
+#include <string.h>
+#include <stdio.h>
+#include "cmd_handler.h"
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -31,6 +35,8 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
+
+#define MAX_BUFFER_SIZE 30
 
 /* USER CODE END PD */
 
@@ -45,6 +51,11 @@ ADC_HandleTypeDef hadc1;
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+// Initialize local variables
+uint8_t temp = 0;                      // Variable for UART data reception
+uint8_t buffer[MAX_BUFFER_SIZE];       // Buffer for received data
+uint8_t index_buffer = 0;              // Index for the received data
+uint8_t buffer_flag = 0;               // Flag indicating new data in buffer
 
 /* USER CODE END PV */
 
@@ -55,18 +66,28 @@ static void MX_ADC1_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
+void sys_init(void);
+
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
-uint8_t temp = 0;
+void sys_init(void) {
+	HAL_GPIO_WritePin(LED_AQUA_GPIO_Port, LED_AQUA_Pin, GPIO_PIN_SET);
+}
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart) {
-	if(huart->Instance == USART2) {
-		HAL_UART_Transmit(&huart2, &temp, 1, 50);
-		HAL_UART_Receive_IT(&huart2, &temp, 1);
-	}
+    if (huart->Instance == USART2) {
+        HAL_UART_Transmit(&huart2, &temp, 1, 100);  // Echo back received character
+        buffer[index_buffer++] = temp;  // Store received character into buffer
+        if (index_buffer >= MAX_BUFFER_SIZE) {
+            index_buffer = 0;  // Avoid buffer overflow
+        }
+
+        buffer_flag = 1;  // Indicate that new data is available
+        HAL_UART_Receive_IT(&huart2, &temp, 1);  // Continue receiving data
+    }
 }
 
 /* USER CODE END 0 */
@@ -103,19 +124,24 @@ int main(void)
   MX_ADC1_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
+  HAL_ADC_Start(&hadc1);
   HAL_UART_Receive_IT(&huart2, &temp, 1);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  sys_init();
   while (1)
   {
     /* USER CODE END WHILE */
 
-	  HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
-	  HAL_Delay(500);
-
     /* USER CODE BEGIN 3 */
+	  if(buffer_flag == 1){
+		  command_parser_fsm();
+		  buffer_flag = 0;
+	  }
+
+	  uart_communication_fsm();
   }
   /* USER CODE END 3 */
 }
@@ -259,14 +285,14 @@ static void MX_GPIO_Init(void)
   __HAL_RCC_GPIOA_CLK_ENABLE();
 
   /*Configure GPIO pin Output Level */
-  HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(LED_AQUA_GPIO_Port, LED_AQUA_Pin, GPIO_PIN_RESET);
 
-  /*Configure GPIO pin : LED_RED_Pin */
-  GPIO_InitStruct.Pin = LED_RED_Pin;
+  /*Configure GPIO pin : LED_AQUA_Pin */
+  GPIO_InitStruct.Pin = LED_AQUA_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-  HAL_GPIO_Init(LED_RED_GPIO_Port, &GPIO_InitStruct);
+  HAL_GPIO_Init(LED_AQUA_GPIO_Port, &GPIO_InitStruct);
 
   /* USER CODE BEGIN MX_GPIO_Init_2 */
 

@@ -1,0 +1,4 @@
+../Core/Src/cmd_handler.c:22:5:is_valid_command_char	8
+../Core/Src/cmd_handler.c:28:6:send_uart_message	1
+../Core/Src/cmd_handler.c:33:6:command_parser_fsm	19
+../Core/Src/cmd_handler.c:116:6:uart_communication_fsm	11
